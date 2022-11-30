@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>get/post 요청</title>
+</head>
+<body>
+<h1>input 태그로 버튼 만들기</h1>
+<ul>
+  <li>name: 서버에 보내는 파라미터</li>
+  <li>태그를 카르키는 식별자.
+    보통 자바스크립트에서 태그를 
+    다룰 때 사용할것이다.</li>
+</ul>
+<form id="form1" action="/html/form/exam02" method="get">
+  혈액형: 
+  <select id="bloodtype"name="bloodtype">
+    <option value="">선택하시오!</option>
+    <option value="o">O형</option>
+    <option value="a" selected>A형</option>
+    <option value="b">B형</option>
+    <option value="ab">AB형</option>
+  </select>
+  <br>
+  <input id="btn1" type="submit" value="보내기"><br>
+</form>
+
+</body>
+</html>

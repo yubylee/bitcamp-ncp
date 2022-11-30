@@ -1,0 +1,144 @@
+
+/* .naver-news{
+    border: 0.5px solid black
+
+} */
+/* 첫칸
+첫칸
+첫칸 */
+#newshead{
+ border: 0.5px solid #c6cfd8;   
+ height: 49px;
+ width: 737px;
+ line-height: 40px;
+ background-color: #f7f9fa;
+ padding-left: 10px;
+}
+
+#newshome{
+    color: blue;
+    cursor: pointer;
+}
+
+#jea{
+    font-size: 12px;
+    cursor: pointer;
+}
+
+#qatar{
+    display:inline-block;
+    width: 80px;
+    height: 30px;
+    background-image:url(../img/qatar.png);
+    background-size: 80px;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    margin-left: 50px;
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+#yunhab{
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+
+/* 두번째칸
+두번째칸
+두번째칸 */
+
+
+#stand{
+ /* border: 0.5px solid black; */
+ height: 56px;
+ width: 747.72px;
+ line-height: 48px;
+ padding-left: 10px;
+ 
+ 
+}
+
+#news2{
+    display:inline-block;
+    width: 50px;
+    height: 40px;
+    background-image:url(../img/2news.png);
+    background-size: 50px;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    margin-left:-18px;
+    margin-top: -13px; 
+    cursor: pointer;
+}
+
+#view{
+    display:inline-block;
+    width: 100px;
+    height: 30px;
+    background-image:url(../img/view.png);
+    background-size:100px;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    margin-left:300px;
+    margin-top: -5px;
+    cursor: pointer;
+}
+
+#code1{
+    color: #c7ccd1;
+    font-size: 25px;
+}
+
+
+#s1{
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#s3{
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+
+/* 세번째
+세번째
+세번째 */
+
+
+/* #newsfooter{
+    border: 1px solid blue;
+    width: 747.72px;
+    height: 48px;
+
+} */
+table{
+    width: 730px;
+    border-spacing: 0px;
+    /* border-style: none; */
+    padding: 0px;
+    border-color: #ffffff
+}
+img{
+    width: 120.5px;
+    height: 64.99px;
+    cursor: pointer;
+}
+
+#left{
+    display:inline-block;
+    width: 40px;
+    height: 60px;
+    background-image:url(../img/left.png);
+    background-size:40px;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    margin-left:-15px;
+    margin-top: -300px;
+    /* box-shadow: 5px 5px 5px #000; */
+    cursor: pointer;
+}
