@@ -1,0 +1,72 @@
+.g121{
+    width: 327px;
+    height: 40px;
+    /* border: 1px solid black; */
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 40px;
+    color: #202020;
+    font-family: -apple-system,
+    BlinkMacSystemFont,
+    "Malgun Gothic",
+    "맑은 고딕",helvetica,
+    "Apple SD Gothic Neo",sans-serif;
+    padding-left: 5px;
+}
+
+#three{
+    font-weight: normal;
+}
+
+#five{
+    margin-left: 130px;
+}
+
+#yang{
+    display:inline-block;
+    width: 50px;
+    height: 40px;
+    background-image: url(../projectnaver/yang.png);
+    background-size: 50px;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+
+#four{
+    margin-left: -20px;
+    font-family: -apple-system,
+    BlinkMacSystemFont,
+    "Malgun Gothic",
+    "맑은 고딕",helvetica,
+    "Apple SD Gothic Neo",sans-serif;
+}
+
+li::marker{
+    color: #1ACE61;
+}
+.g122{
+    width: 332px;
+    height: 222px;
+    line-height: 28px;
+    /* border: 1px solid black; */
+    font-size: 12px;
+}
+
+#one{
+    font-weight: bold;
+    cursor:pointer;
+}
+
+#one:hover{
+    text-decoration: underline;
+}
+#two{
+    cursor: pointer;
+}
+
+#two:hover{
+    text-decoration: underline;
+}

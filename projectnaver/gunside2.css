@@ -1,0 +1,96 @@
+.sibalparents{
+    /* border: 1px solid black; */
+    width: 331px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 13px;
+    padding-bottom: 5px;
+}
+
+
+#sibal1{
+    border-bottom: 3px solid;
+    color: #03c75a;
+    font-weight: 700;
+    border-color: #19ce60;
+    margin-left: 10px;
+    margin-right: 2px;
+    cursor: pointer;
+}
+
+#sibal2{
+    word-spacing: 2px;
+    cursor: pointer;
+}
+
+#sibal3{
+    font-weight: bold;
+    margin-left: 40px;
+    cursor: pointer;
+}
+
+#sibal4{
+    cursor: pointer;
+}
+
+#sibal5{
+    display: inline-block;
+    width: 50px;
+    height: 40px;
+    background-image: url(../projectnaver/yang.png);
+    background-repeat: no-repeat;
+    background-size: 50px;
+    vertical-align: middle;
+    margin-top: 8px;
+    cursor: pointer;
+}
+
+/* 2----------------------------------------------- */
+
+.picaparents{
+    width: 331px;
+  height:173.2px;
+    /* border: 1px solid black; */
+}
+#pica1{
+    display: inline-block;
+    width: 331px;
+    height: 180px;
+    background-image: url(../projectnaver/pica.png);
+    background-repeat: no-repeat;
+    background-size: 331px;
+    vertical-align: middle;
+    margin-top: 0;
+    margin-bottom: 0;
+    cursor: pointer;
+}
+
+
+/* 3----------------------------------------------- */
+
+.pocketparents{
+    width: 331px;
+    height:35px;
+    /* border: 1px solid black; */
+    font-size: 12px;
+    font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
+    font-weight: 700;
+}
+
+#pocket1{
+    margin-left: 25px;
+    cursor: pointer;
+}
+
+#pocket2{
+    margin-left: 40px;
+    cursor: pointer;
+}
+
+#pocket1:hover{
+    text-decoration: underline;
+}
+
+#pocket2:hover{
+    text-decoration: underline;
+}

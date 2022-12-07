@@ -1,0 +1,93 @@
+.hiparents{
+    /* border: 1px solid black; */
+    width: 331px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 13px;
+    padding-bottom: 5px;
+}
+
+
+#hi1{
+    display: inline-block;
+    width: 50px;
+    height: 40px;
+    background-image: url(../projectnaver/hi.png);
+    background-repeat: no-repeat;
+    background-size: 50px;
+    vertical-align: middle;
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+#hi2{
+    word-spacing:0;
+    cursor: pointer;
+}
+
+#hi3{
+    font-weight: bold;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+#hi4{
+    cursor: pointer;
+}
+
+#hi5{
+    display: inline-block;
+    width: 50px;
+    height: 40px;
+    background-image: url(../projectnaver/yang.png);
+    background-repeat: no-repeat;
+    background-size: 50px;
+    vertical-align: middle;
+    margin-top: 8px;
+    cursor: pointer;
+}
+
+/* 2----------------------------------------------- */
+
+.palaparents{
+    /* border: 1px solid black; */
+    width: 331px;
+    height: 228px;
+}
+
+.palaparents > img{
+    float:left;
+    width: 160px;
+    height: 220px;
+    margin-right: 6px;
+    margin-top: -8px;
+}
+
+.palaparents > p{
+    font-size: 12px;
+    margin-top: 10px;
+    line-height: 12px;
+}
+
+#pala1{
+    line-height: 4px;
+}
+
+#pala2{
+    margin-top: 35px;
+    line-height: 0px;
+}
+#pala20{
+    margin-top: 15px;
+    line-height: 0px;
+}
+
+#pala3{
+    line-height: 4px;
+    margin-top: 35px;
+}
+#pala30{
+    line-height: 4px;
+}
+
+
