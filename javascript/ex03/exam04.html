@@ -7,7 +7,23 @@
 <body>
 <h1>함수 - 함수와 window 객체</h1>
 <script>
-// 함수도 변수와 같이 자동으로 window 객체에 소속된다.
+
+// var obj = {
+// 	name: "홍길동",
+// 	"age": 20,
+// 	'tel': "111-2222"
+// };
+// console.log(obj.name);
+// console.log(obj.["name"])
+// console.log(obj.['name'])
+
+// var a = 100;
+// console.log(a);
+// console.log(window.a);
+// console.log(window["a"])
+
+
+// 함수도 var변수와 같이 자동으로 window 객체에 소속된다.
 function f1(str) { 
 	console.log(str);
 }

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ex03</title>
+</head>
+<body>
+<h1>함수 - 애로우(arrow) 함수를 아규먼트로 전달하기</h1>
+<script>
+"use strict"
+
+console.log("-----------------------------")
+//Quiz
+let arr = [100, "홍길동", 300, "임꺽정", 500, true];
+function forEach(a, cb) {
+	for (let i = 0; i < a.length; i++) {
+		cb(i, arr[i]);
+	}
+}
+
+//연습
+// forEach(arr, (q, w) => console.log(q + ":" + w))
+// //연습
+// forEach(arr,(a, b) => console.log(a + ":" + b))
+// //연습
+// console.log("-----------------------------")
+
+forEach(arr, c);
+function c(a, b) {
+	console.log(a + ":" + b);
+};
+forEach()
+// function f(a, b) {
+// 	console.log(a + ":" + b);
+// }
+
+
+console.log("-----------------------------")
+forEach(arr, (index, value) => console.log(index + ":" + value));
+
+function f(index, value) {
+	console.log(index + ":" + value);
+}
+
+console.log("-----------------------------")
+
+forEach(arr,(a, cb) => {
+	for (let i = 0; i < a.length; i++) {
+		cb(i, arr[i]);
+	}
+	console.log(a + ":" + cb);
+}
+);
+
+
+
+
+
+
+
+
+// play2() 실행 결과:
+// 0: 100
+// 1: 홍길동
+// 2: 300
+// 3: 임꺽정
+// 4: 500
+// 5: true
+
+console.log("-----------------------------")
+
+
+
+// let trr = [100, "홍길동", 3.14, "임꺽정", true];
+// function c(index, value){
+// 	console.log(`${index} : ${value}`)
+// }
+// forEach(trr, c)
+
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

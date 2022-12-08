@@ -12,7 +12,7 @@
 // 
 
 // 함수 객체를 아규먼트로 넘길 때 
-// 보통 파라미터 이름을 fn 또는 cb(callback)로 한다.
+// 보통 파라미터 이름을 fn 또는 cb(callback)로 한다. 함수주소좀 줘!!
 // "콜백(callback) 함수"
 // => 직접 호출하는 것이 아니라 다른 함수에게 파라미터 값으로 전달하여 
 //    호출되도록 만드는 함수.
@@ -23,6 +23,7 @@ function play(cb) {
 
 function plus(a, b) {return a + b;}
 function minus(a, b) {return a - b;}
+
 
 play(plus); // 호출될 함수를 파라미터로 넘긴다. 그러면 play()가 호출해 줄 것이다.
 play(minus);

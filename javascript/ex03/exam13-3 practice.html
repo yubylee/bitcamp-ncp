@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ex03</title>
+</head>
+<body>
+<h1>함수 - 애로우(arrow) 함수를 아규먼트로 전달하기</h1>
+<script>
+"use strict"
+
+// 배열의 forEach() 사용하기
+//
+let arr = [100, "홍길동", 300, "임꺽정", 500, true];
+function forEach(a, cb) {
+	for (let i = 0; i < a.length; i++) {
+		cb(i, arr[i]);
+	}
+}
+
+forEach(arr,)
+
+// play2() 실행 결과:
+// 0: 100
+// 1: 홍길동
+// 2: 300
+// 3: 임꺽정
+// 4: 500
+// 5: true
+
+
+
+</script>
+
+</body>
+</html>
