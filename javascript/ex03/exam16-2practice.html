@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ex03</title>
+</head>
+<body>
+<h1>자바스크립트 주요 함수 - setInterval()</h1>
+<script>
+"use strict"
+var count = 0;
+function f1() {
+  console.log("f1()...." + (++count));
+  if (count >= 10) {
+    window.clearInterval(timerId);
+  }
+}
+
+var timerId = window.setInterval(f1, 2000);
+
+</script>
+
+</body>
+</html>

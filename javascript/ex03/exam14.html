@@ -22,9 +22,9 @@ function closureMaker(fnType, count) {
 	    };
 	case "factorial":
       return () => {
-	        var sum = 1;
+	        var sum = 1; //여기 왜 1이라고 정의햇는지 모르겟다
 	        for (var i = 1; i <= count; i++) {
-	            sum *= i;
+	            sum *= i; //*= 이건또 뭐야
 	        }
 	        console.log("팩토리얼 =", sum);
 	    };
