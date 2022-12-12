@@ -17,7 +17,7 @@ var obj = new Object();
 console.log(obj);
 
 // 기본 객체 안에는 다음의 함수들이 들어 있다.
-console.log(obj.toString());
+console.log(obj.toString()); // 어떤생성자를 통해 객체화된건지
 console.log(obj.valueOf());
 console.log(obj.hasOwnProperty("toString")); // false
 console.log(obj.hasOwnProperty("hashCode")); // false
@@ -44,6 +44,7 @@ obj.plus1 = f1; // 함수명은 그 자체가 함수 객체의 주소를 갖고 
 
 obj.plus2 = function(a, b) {
   return a + b;
+  
 };
 
 obj.plus3 = (a, b) => console.log("합계=", a + b); // arrow function
@@ -62,7 +63,7 @@ console.log(obj['content']);
 console.log(obj.viewCount);
 console.log(obj.plus1(100, 200)); // 리턴 값 출력
 console.log(obj["plus2"](100, 200)); // 리턴 값 출력
-obj['plus3'](100, 200);
+obj['plus3'](100, 200); //파라미터값이 없더라도 가로쳐야됨
 
 </script>
 </body>
