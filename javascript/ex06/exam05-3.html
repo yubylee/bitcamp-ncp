@@ -29,6 +29,37 @@ document.getElementById("btn1").addEventListener("click", function(e) {
 	// #btn1을 눌렀을 때 #btn2에 "ohora" 이벤트를 발생시키기
 	// 1) CustomEvent 만들기
 	// => 이벤트 객체에 데이터를 첨부할 때는 "detail"이라는 이름으로 데이터를 첨부하라!
+  var data = new Object;
+  data.detail = "hello"
+  var myEvent = new CustomEvent("ohora", data);
+
+ 
+
+  
+  var myEvent = new CustomEvent("ohora", {
+    detail : "hello"
+  });
+
+
+
+
+  var myEvent = new CustomEvent("ohora", {
+    detail : "hello"
+  });
+
+
+
+
+  var myEvent = new CustomEvent("ohora", {
+    detail : "hello"
+  });
+
+ 
+  var myEvent = new CustomEvent("ohora", {
+    detail : "hello"
+  });
+
+  
   var myEvent = new CustomEvent("ohora", {
     detail: "hello!!"
   });
