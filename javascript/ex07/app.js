@@ -156,7 +156,7 @@ app.get('/proxy2', (req, res) => {
   res.set('Access-Control-Allow-Origin', '*');       
   res.set('Content-Type', 'application/json; charset=UTF-8')        
 
-  let openApiUrl = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?" + 
+  let openApiUrl = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?" + 
                     "serviceKey=GN3GrekCPJXFO51J%2FL9XqEtmqktvtGPnvO520lp5THphUo06%2F7xf98JtZYGBRNlBcs7q%2BA5c74X8oFGHAjoCjQ%3D%3D" +
                     "&pageNo=1" +
                     "&numOfRows=1000" +
