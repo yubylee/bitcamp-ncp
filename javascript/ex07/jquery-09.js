@@ -6,6 +6,7 @@
 // 6. on()
 // 7. appendTo()
 // 8. Method Chaining
+// 9. click()
 function jQuery(selector) {
   let el = []; // 생성한 태그나 찾은 태그를 담는 배열
 
@@ -70,6 +71,14 @@ function jQuery(selector) {
   el.on = function (eventName, listener) {
     for (let e of el) {
       e.addEventListener(eventName, listener);
+    }
+
+    return this;
+  };
+
+  el.click = function(handler) {
+    for (let e of el) {
+      e.addEventListener('click', handler);
     }
 
     return this;

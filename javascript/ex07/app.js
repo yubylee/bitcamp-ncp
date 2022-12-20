@@ -131,6 +131,17 @@ app.get( '/exam04-3', (req, res) => {                 // 요청 핸들러: 요�
 }); 
 
 
+app.post( '/login', (req, res) => {                 // 요청 핸들러: 요청이 들어 왔을 때 호출되는 메서드
+  res.set('Access-Control-Allow-Origin', '*');  // CORS 문제해결      
+  res.set('Content-Type', 'text/plain; charset=UTF-8');  
+
+  var payload = `이메일 : ${req.body.email}\n`;
+  payload += `암호 : ${req.body.password}\n`;
+  res.send(payload);
+
+}); 
+
+
 
 // 클라이언트 요청을 다른 서버에게 보낸다.
 app.get('/proxy', (req, res) => {  

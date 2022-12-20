@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <h1>jQuery 만들기 - 8. Method chaining()</h1>
+    <h1>jQuery 만들기 - 10. 리팩토링</h1>
     <table border="1">
         <thead>
             <tr>
@@ -22,7 +22,7 @@
     </table>
     <button id="btn1">데이터 가져오기!</button>
 
-    <script src="jquery-08.js"></script>
+    <script src="jquery-10.js"></script>
 
     <script>
 
@@ -31,7 +31,7 @@
         "use strict"
 
         var tbody = $("tbody");
-        $("#btn1").on('click', () => {
+        $("#btn1").click(() => {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = () => {
                 if (xhr.readyState == 4) {
