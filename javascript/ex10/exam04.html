@@ -2,34 +2,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>비동기작업</title>
+<title>모듈</title>
 </head>
 <body>
-<h1>Promise - 비동기 작업을 완료한 후 다음 작업 실행하기</h1>
-<script>
-function onFulfilled() {
-  console.log("fulfilled!")
-}
+<h1>export/import - 기본 프로퍼티와 기타 프로퍼티 다루기</h1>
 
-const promise = new Promise((resolve, reject) => {
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState == 4) {
-      console.log(xhr.responseText);
-      resolve(); // 작업이 완료되었다고 통지한다.
-    }
-  };
-  xhr.open("GET", "exam01", true); 
-  xhr.send();
-});
-
-console.log("1111");
-
-// 비동기 작업 수행을 완료했다고 통보 받았을 때
-// 그 다음으로 수행할 작업을 등록한다.
-promise.then(onFulfilled);
-
-
+<script type="module">
+  // import 기본프로퍼티명, {기타 프로퍼티들} from ...
+  import v2, {v1, f1} from "./modules/m4.js";
+  console.log(v1);
+  console.log(v2);
+  f1();
 </script>
 </body>
 </html>

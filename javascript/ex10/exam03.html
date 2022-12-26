@@ -2,30 +2,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>비동기작업</title>
+<title>모듈</title>
 </head>
 <body>
-<h1>Promise - 비동기 작업의 완료를 통지하기</h1>
-<script>
-const promise = new Promise((resolve, reject) => {
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState == 4) {
-      console.log(xhr.responseText);
-      resolve(); // 작업이 완료되었다고 통지한다.
-    }
-  };
-  xhr.open("GET", "exam01", true); 
-  xhr.send();
-});
 
-console.log("1111");
+<h1>export/import - 여러 개 프로퍼티 다루기</h1>
 
-// promise 객체가 작업 완료 통지를 받았다 하더라도 
-// 다음으로 수행할 작업이 등록되어 있지 않다면 
-// 아무런 일도 수행하지 않는다.
-
-
+<script type="module">
+  import {v1, v2, f1} from "./modules/m3.js";
+  console.log(v1);
+  console.log(v2);
+  f1();
 </script>
+
 </body>
 </html>

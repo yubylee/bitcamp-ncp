@@ -20,32 +20,26 @@
         <tbody>
         </tbody>
     </table>
-    <button id="btn1">데이터 가져오기!</button>
+    
     <script>
         "use strict"
         // 웹페이지를 만들 때 AJAX를 이용하여 여러 조각을 붙여서 만들 수 있다.
         //       
         var tbody = document.querySelector("tbody");
-
-        document.querySelector("#btn1").onclick = () => {
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    var arr = JSON.parse(xhr.responseText);
+        let promise = fetch("http://localhost:3000/boards");
+        let promise2 = promise.then((response) => {
+            return response.json(); // 응답에서 텍스트를 추출하여 객체로 deserialize를 수행하는 Promise 객체
+        });
+        promise2.then((arr) => {
                     for (var b of arr) {
                         var tr = document.createElement("tr");
                         tr.innerHTML = "<td>" + b.no + "</td>" +
                             "<td>" + b.title + "</td>" +
                             "<td>" + b.writer + "</td>" +
                             "<td>" + b.viewCnt + "</td>";
-                        tbody.appendChild(tr);
-                    }
+                        tbody.appendChild(tr);   
                 }
-            };
-            xhr.open("GET", "http://localhost:3000/boards", true);
-            xhr.send();
-        };
-
+        });
     </script>
 </body>
 
