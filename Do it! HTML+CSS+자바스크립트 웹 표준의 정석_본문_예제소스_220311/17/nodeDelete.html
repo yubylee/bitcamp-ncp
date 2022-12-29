@@ -30,6 +30,14 @@
       itemList.insertBefore(newItem, itemList.childNodes[0]);  // 자식 노드중 첫번째 노드 앞에 추가
 
       subject.value="";
+
+      var items = document.querySelector("li");
+      for (i = 0; i < items.length; i++) {
+        items[i].addEventListener("click", function(){
+          if(this.parentNode)
+          this.parentNode.removeChild(this);
+        })
+      }
     }
 	</script>
 </body>
