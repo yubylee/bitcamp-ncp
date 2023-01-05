@@ -3,11 +3,18 @@ package bitcamp.myapp;
 public class App {
 
   public static void main(String[] args) {
-    MemberHandler.inputMembers();
+    MemberHandler.goMainMenu();
+    Prompt.close();
 
-    System.out.println();
-
-    MemberHandler.printMembers();
   } // main()
 
 } // class App
+
+
+
+
+
+
+
+
+

@@ -5,7 +5,7 @@ package com.eomcs.oop.ex02;
 // 2) 메서드를 클래스로 묶어 분류하기
 // 3) 클래스 변수 도입
 // 4) 클래스 변수의 한계 확인
-// 
+//
 public class Exam0240 {
 
   static class Calculator {
