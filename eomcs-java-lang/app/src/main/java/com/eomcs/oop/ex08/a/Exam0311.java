@@ -71,7 +71,6 @@ public class Exam0311 {
   public static void main(String[] args) {
 
     Score3 s1 = new Score3();
-
     s1.name = "홍길동";
     s1.setKor(100);
     s1.setEng(90);
