@@ -23,38 +23,29 @@
           <td><input type="text" name="tel" id="f-tel"></td>
         </tr>
         <tr>
-          <th>우편번호</th>
-          <td><input type="text" name="postNo" id="f-postNo"></td>
+          <th>이메일</th>
+          <td><input type="text" name="mail" id="f-mail"></td>
         </tr>
         <tr>
-          <th>기본주소</th>
-          <td><input type="text" name="basicAddress" id="f-basicAddress"></td>
-        </tr>
-        <tr>
-          <th>상세주소</th>
-          <td><input type="text" name="detailAddress" id="f-detailAddress"></td>
-        </tr>
-        <tr>
-          <th>재직여부</th>
+          <th>최종학력</th>
           <td>
-            <input type="checkbox" name="working" value="true" id="f-working"> 재직중
+            <select name="education" id="f-education">
+              <option value="0">학사</option>
+              <option value="1">박사</option>
+              <option value="2">석사</option>
           </td>
         </tr>
         <tr>
-          <th>성별</th>
-          <td>
-            <input type="radio" name="gender" value="W" id="f-gender-w" checked> 여성
-            <input type="radio" name="gender" value="M" id="f-gender-m"> 남성
-          </td>
+          <th>대학교</th>
+          <td><input type="text" name="university" id="f-university"></td>
         </tr>
         <tr>
           <th>전공</th>
-          <td>
-            <select name="level" id="f-level">
-              <option value="0">비전공자</option>
-              <option value="1">준전공자</option>
-              <option value="2">전공자</option>
-          </td>
+          <td><input type="text" name="major" id="f-major"></td>
+        </tr>
+        <tr>
+        <th>강사료</th>
+          <td><input type="text" name="fee" id="f-fee">원/시간</td>
         </tr>
         <tr>
           <th>등록일</th>
@@ -89,11 +80,11 @@ if (values2.length != 2 || values2[0] != "no") {
 
 var no = parseInt(values2[1]);
 if(isNaN(no)) {
-  alert("회원 번호가 옳지 않습니다.");
+  alert("강사 번호가 옳지 않습니다.");
   throw "no 파라미터 값이 숫자가 아닙니다.";
 }
 
-  fetch(`http://localhost:8080/members/${no}`)
+  fetch(`http://localhost:8080/teachers/${no}`)
   .then((response) => response.json())
   .then((obj) => {
     if (obj.status == "failure") {
@@ -106,16 +97,11 @@ if(isNaN(no)) {
     document.querySelector("#f-no").value = obj.data.no;
     document.querySelector("#f-name").value = obj.data.name;
     document.querySelector("#f-tel").value = obj.data.tel;
-    document.querySelector("#f-postNo").value = obj.data.postNo;
-    document.querySelector("#f-basicAddress").value = obj.data.basicAddress;
-    document.querySelector("#f-detailAddress").value = obj.data.detailAddress;
-    document.querySelector("#f-working").checked = obj.data.working;
-    if (obj.data.gender == 'W') {
-      document.querySelector("#f-gender-w").checked = true;
-    } else {
-      document.querySelector("#f-gender-m").checked = true;
-    }
-    document.querySelector("#f-level").value = obj.data.level;
+    document.querySelector("#f-mail").value = obj.data.mail;
+    document.querySelector("#f-education").value = obj.data.education;
+    document.querySelector("#f-university").value = obj.data.university;
+    document.querySelector("#f-major").value = obj.data.major;
+    document.querySelector("#f-fee").value = obj.data.fee;
     document.querySelector("#f-createdDate").innerHTML = obj.data.createdDate;
     
   })
@@ -129,27 +115,26 @@ if(isNaN(no)) {
  
     var name = encodeURIComponent(document.querySelector('#f-name').value);
     var tel = document.querySelector('#f-tel').value;
-    var postNo = document.querySelector('#f-postNo').value;
-    var basicAddress = encodeURIComponent(document.querySelector('#f-basicAddress').value);
-    var detailAddress = encodeURIComponent(document.querySelector('#f-detailAddress').value);
-    var working = document.querySelector('#f-working').checked;
-    var gender = document.querySelector('#f-gender-w').checked ? 'W' : 'M';
-    var level = document.querySelector('#f-level').value;
+    var mail = encodeURIComponent(document.querySelector('#f-mail').value);
+    var education = document.querySelector('#f-education').value;
+    var university = encodeURIComponent(document.querySelector('#f-university').value);
+    var major = encodeURIComponent(document.querySelector('#f-major').value);
+    var fee = encodeURIComponent(document.querySelector('#f-fee').value);
 
  //console.log(`title=${title}content=${content}password=${password}`);
 
- fetch(`http://localhost:8080/members/${no}`, {
+ fetch(`http://localhost:8080/teachers/${no}`, {
    method: 'PUT',
    headers: {
      'Content-type': 'application/x-www-form-urlencoded'
    },
-   body: `name=${name}&tel=${tel}&postNo=${postNo}&basicAddress=${basicAddress}&detailAddress=${detailAddress}` + 
-     `&working=${working}&gender=${gender}&level=${level}`
+   body: `name=${name}&tel=${tel}&mail=${mail}&education=${education}&university=${university}` + 
+     `&major=${major}&fee=${fee}`
  })
  .then((response) => response.json())
  .then((obj) => {
    if(obj.status == "failure") {
-     alert("회원 변경 오류!\n" + obj.data);
+     alert("강사 변경 오류!\n" + obj.data);
      return;
    }
      location.href = "list.html";
@@ -163,7 +148,7 @@ if(isNaN(no)) {
 
 document.querySelector('#delete-btn').onclick = (e) => {
    
-    fetch(`http://localhost:8080/members/${no}`, {
+    fetch(`http://localhost:8080/teachers/${no}`, {
       method: 'DELETE'
     })
     .then((response) => response.json())

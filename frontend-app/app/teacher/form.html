@@ -19,40 +19,31 @@
           <td><input type="text" name="tel" id="f-tel"></td>
         </tr>
         <tr>
-          <th>우편번호</th>
-          <td><input type="text" name="postNo" id="f-postNo"></td>
+          <th>이메일</th>
+          <td><input type="text" name="mail" id="f-mail"></td>
         </tr>
         <tr>
-          <th>기본주소</th>
-          <td><input type="text" name="basicAddress" id="f-basicAddress"></td>
-        </tr>
-        <tr>
-          <th>상세주소</th>
-          <td><input type="text" name="detailAddress" id="f-detailAddress"></td>
-        </tr>
-        <tr>
-          <th>재직여부</th>
+          <th>최종학력</th>
           <td>
-            <input type="checkbox" name="working" value="true" id="f-working"> 재직중
+            <select name="education" id="f-education">
+              <option value="0">학사</option>
+              <option value="1">박사</option>
+              <option value="2">석사</option>
           </td>
         </tr>
         <tr>
-          <th>성별</th>
-          <td>
-            <input type="radio" name="gender" value="W" id="f-gender-w" checked> 여성
-            <input type="radio" name="gender" value="M" id="f-gender-m"> 남성
-          </td>
+          <th>대학교</th>
+          <td><input type="text" name="university" id="f-university"></td>
         </tr>
         <tr>
           <th>전공</th>
-          <td>
-            <select name="level" id="f-level">
-              <option value="0">비전공자</option>
-              <option value="1">준전공자</option>
-              <option value="2">전공자</option>
-          </td>
+          <td><input type="text" name="major" id="f-major"></td>
         </tr>
-        
+        <tr>
+        <th>강사료</th>
+          <td><input type="text" name="fee" id="f-fee">원/시간</td>
+        </tr>
+    
       </tbody>
     </table>
     <button id="add-btn" type="button">등록</button>
@@ -63,24 +54,23 @@
     document.querySelector('#add-btn').onclick = (e) => {
     var name = encodeURIComponent(document.querySelector('#f-name').value);
     var tel = document.querySelector('#f-tel').value;
-    var postNo = document.querySelector('#f-postNo').value;
-    var basicAddress = encodeURIComponent(document.querySelector('#f-basicAddress').value);
-    var detailAddress = encodeURIComponent(document.querySelector('#f-detailAddress').value);
-    var working = document.querySelector('#f-working').checked;
-    var gender = document.querySelector('#f-gender-w').checked ? 'W' : 'M';
-    var level = document.querySelector('#f-level').value;
+    var mail = encodeURIComponent(document.querySelector('#f-mail').value);
+    var education = document.querySelector('#f-education').value;
+    var university = encodeURIComponent(document.querySelector('#f-university').value);
+    var major = encodeURIComponent(document.querySelector('#f-major').value);
+    var fee = encodeURIComponent(document.querySelector('#f-fee').value);
     
  
     // console.log(`name=${name}&tel=${tel}&postNo=${postNo}&basicAddress=${basicAddress}&detailAddress=${detailAddress}` + 
     // `&working=${working}&gender=${gender}&level=${level}`);
    
-    fetch('http://localhost:8080/members', {
+    fetch('http://localhost:8080/teachers', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      body: `name=${name}&tel=${tel}&postNo=${postNo}&basicAddress=${basicAddress}&detailAddress=${detailAddress}` + 
-     `&working=${working}&gender=${gender}&level=${level}`
+      body: `name=${name}&tel=${tel}&mail=${mail}&education=${education}&university=${university}` + 
+     `&major=${major}&fee=${fee}`
     })
     .then((response) => {return response.json();})
     .then((obj) => {
