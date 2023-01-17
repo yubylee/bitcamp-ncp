@@ -16,7 +16,9 @@ public class Exam01 {
     //       => 쓰지도 않는 코드가 계속 누적되는 문제가 있다.
     //
     Car c1 = new Car("비트자동차", "티코", 5, true, true);
-
+    System.out.println(c1.capacity);
+    Car c2 = new Car("비트자동차", "티코", 5);
+    System.out.println(c2.maker);
 
 
   }

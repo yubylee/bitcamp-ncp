@@ -1,52 +1,33 @@
 package bitcamp.bootapp.vo;
 
-public class Teacher {
+public class Teacher extends Member{
+  // Member 클래스의 코드를 사용하겠다고 선언한다.
 
-  private int no;
-  private String name;
-  private String tel;
-  private String mail;
-  private String education;
-  private String university;
+  private String email;
+  private int degree;
+  private String school;
   private String major;
-  private String createdDate;
-  private int fee;
+  private int wage;
 
-  public int getNo() {
-    return no;
+
+
+  public String getEmail() {
+    return email;
   }
-  public void setNo(int no) {
-    this.no = no;
+  public void setEmail(String email) {
+    this.email = email;
   }
-  public String getName() {
-    return name;
+  public int getDegree() {
+    return degree;
   }
-  public void setName(String name) {
-    this.name = name;
+  public void setDegree(int degree) {
+    this.degree = degree;
   }
-  public String getTel() {
-    return tel;
+  public String getSchool() {
+    return school;
   }
-  public void setTel(String tel) {
-    this.tel = tel;
-  }
-  public String getMail() {
-    return mail;
-  }
-  public void setMail(String mail) {
-    this.mail = mail;
-  }
-  public String getEducation() {
-    return education;
-  }
-  public void setEducation(String education) {
-    this.education = education;
-  }
-  public String getUniversity() {
-    return university;
-  }
-  public void setUniversity(String university) {
-    this.university = university;
+  public void setSchool(String school) {
+    this.school = school;
   }
   public String getMajor() {
     return major;
@@ -54,16 +35,13 @@ public class Teacher {
   public void setMajor(String major) {
     this.major = major;
   }
-  public String getCreatedDate() {
-    return createdDate;
+  public int getWage() {
+    return wage;
   }
-  public void setCreatedDate(String createdDate) {
-    this.createdDate = createdDate;
+  public void setWage(int wage) {
+    this.wage = wage;
   }
-  public int getFee() {
-    return fee;
-  }
-  public void setFee(int fee) {
-    this.fee = fee;
-  }
+
+
+
 }
