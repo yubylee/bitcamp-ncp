@@ -35,6 +35,10 @@ public class Exam0511 {
       System.out.println("X4의 m1()");
     }
   }
+  void x() {
+    System.out.println("X4의 x()");
+  }
+
 
   public static void main(String[] args) {
     X4 x4 = new X4();
@@ -47,6 +51,7 @@ public class Exam0511 {
     ((X3)x4).m1();   // X4.m1()
     ((X2)x4).m1();   // X4.m1()
     ((X)x4).m1();    // X4.m1();
+
 
     X3 x3 = x4;
     X2 x2 = x4;

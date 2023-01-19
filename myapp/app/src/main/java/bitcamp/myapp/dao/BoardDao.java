@@ -27,7 +27,7 @@ public class BoardDao extends ObjectDao {
   @Override // 컴파일러에게 오버라이딩을 제대로 했는지 검사해 달라고 표시함
   protected int indexOf(Object obj) {
     for (int i = 0; i < this.size(); i++) {
-      if (((Board)this.objects[i]).getNo() == ((Board)obj).getNo()) {
+      if (((Board)get(i)).getNo() == ((Board)obj).getNo()) {
         return i;
       }
     }
