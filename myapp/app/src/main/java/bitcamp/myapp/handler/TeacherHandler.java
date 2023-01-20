@@ -15,7 +15,6 @@ public class TeacherHandler {
 
   private void inputTeacher() {
     Teacher m = new Teacher();
-
     m.setName(Prompt.inputString("이름? "));
     m.setTel(Prompt.inputString("전화? "));
     m.setEmail(Prompt.inputString("이메일? "));
@@ -23,7 +22,6 @@ public class TeacherHandler {
     m.setSchool(Prompt.inputString("학교? "));
     m.setMajor(Prompt.inputString("전공? "));
     m.setWage(Prompt.inputInt("강의료(시급)? "));
-
 
     this.teacherDao.insert(m);
   }

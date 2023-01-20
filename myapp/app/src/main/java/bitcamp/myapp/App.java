@@ -44,7 +44,7 @@ public class App {
             System.out.println("잘못된 메뉴 번호 입니다.");
         }
       } catch (Exception e) {
-        System.out.printf("명령어 실행 중 오류발생! - %s : %s\n",
+        System.out.printf("명령 실행 중 오류 발생! - %s : %s\n",
             e.getMessage(),
             e.getClass().getSimpleName());
       }

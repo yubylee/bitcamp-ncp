@@ -1,4 +1,4 @@
-package bitcamp.myapp.dao;
+package bitcamp.util;
 
 public class Node {
   Object value;
