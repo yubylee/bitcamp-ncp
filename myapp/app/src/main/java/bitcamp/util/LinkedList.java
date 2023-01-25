@@ -2,22 +2,27 @@ package bitcamp.util;
 
 import bitcamp.myapp.dao.DaoException;
 
-public class LinkedList {
+public class LinkedList implements List {
+
   private Node head;
   private Node tail;
   private int size;
 
+  @Override
   public void add(Object value) {
     Node node = new Node(value);
-    if (this.tail == null) {
+    if (this.tail == null) { // size == 0, head == null
       this.head = this.tail = node;
+
     } else {
       this.tail.next = node;
       this.tail = node;
     }
+
     this.size++;
   }
 
+  @Override
   public Object[] toArray() {
     Object[] values = new Object[this.size];
     int index = 0;
@@ -30,10 +35,12 @@ public class LinkedList {
     return values;
   }
 
+  @Override
   public Object set(int index, Object value) {
     if (index < 0 || index >= this.size) {
       throw new IndexOutOfBoundsException("인덱스가 유효하지 않습니다.");
     }
+
     Node cursor = head;
     int i = 0;
 
@@ -46,9 +53,11 @@ public class LinkedList {
       cursor = cursor.next;
       i++;
     }
+
     return null;
   }
 
+  @Override
   public boolean remove(Object value) {
     Node prevNode = null;
     Node deletedNode = null;
@@ -62,15 +71,18 @@ public class LinkedList {
       prevNode = cursor;
       cursor = cursor.next;
     }
+
     if (deletedNode == null) {
       return false;
     }
+
     if (prevNode == null) {
       this.head = this.head.next;
       deletedNode.next = null;
       if (this.head == null) {
         this.tail = null;
       }
+
     } else {
       prevNode.next = deletedNode.next;
       deletedNode.next = null;
@@ -82,6 +94,7 @@ public class LinkedList {
     return true;
   }
 
+  @Override
   public int indexOf(Object b) {
     Node cursor = head;
     int i = 0;
@@ -96,14 +109,17 @@ public class LinkedList {
     return -1;
   }
 
+  @Override
   public int size() {
     return this.size;
   }
 
+  @Override
   public Object get(int index) {
     if (index < 0 || index >= this.size) {
       throw new DaoException("인덱스가 무효합니다!");
     }
+
     Node cursor = head;
     int i = 0;
 
@@ -113,4 +129,18 @@ public class LinkedList {
     }
     return cursor.value;
   }
+
+  @Override
+  public Iterator iterator() {
+    // 이 ArrayList 객체에서 값을 꺼내는 일을 할
+    // Iterator 구현체를 만들어 리턴한다.
+    return new ListIterator(this);
+  }
 }
+
+
+
+
+
+
+

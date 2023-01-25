@@ -2,11 +2,12 @@ package bitcamp.myapp.handler;
 
 import bitcamp.myapp.dao.StudentDao;
 import bitcamp.myapp.vo.Student;
+import bitcamp.util.ArrayList;
 import bitcamp.util.Prompt;
 
 public class StudentHandler {
 
-  private StudentDao memberDao = new StudentDao();
+  private StudentDao memberDao = new StudentDao(new ArrayList());
   private String title;
 
   public StudentHandler(String title) {
@@ -29,12 +30,11 @@ public class StudentHandler {
 
   private void printMembers() {
 
-    Object[] members = this.memberDao.findAll();
+    Student[] members = this.memberDao.findAll();
 
     System.out.println("번호\t이름\t전화\t재직\t전공");
 
-    for (Object obj : members) {
-      Student m = (Student) obj;
+    for (Student m : members) {
       System.out.printf("%d\t%s\t%s\t%s\t%s\n",
           m.getNo(), m.getName(), m.getTel(),
           m.isWorking() ? "예" : "아니오",
@@ -131,14 +131,13 @@ public class StudentHandler {
 
   private void searchMember() {
 
-    Object[] members = this.memberDao.findAll();
+    Student[] members = this.memberDao.findAll();
 
     String name = Prompt.inputString("이름? ");
 
     System.out.println("번호\t이름\t전화\t재직\t전공");
 
-    for (Object obj : members) {
-      Student m = (Student) obj;
+    for (Student m : members) {
       if (m.getName().equalsIgnoreCase(name)) {
         System.out.printf("%d\t%s\t%s\t%s\t%s\n",
             m.getNo(), m.getName(), m.getTel(),

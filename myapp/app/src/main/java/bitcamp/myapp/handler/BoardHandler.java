@@ -2,11 +2,12 @@ package bitcamp.myapp.handler;
 
 import bitcamp.myapp.dao.BoardDao;
 import bitcamp.myapp.vo.Board;
+import bitcamp.util.LinkedList;
 import bitcamp.util.Prompt;
 
 public class BoardHandler {
 
-  private BoardDao boardDao = new BoardDao();
+  private BoardDao boardDao = new BoardDao(new LinkedList());
   private String title;
 
   // 인스턴스를 만들 때 프롬프트 제목을 반드시 입력하도록 강제한다.
@@ -26,10 +27,9 @@ public class BoardHandler {
   private void printBoards() {
     System.out.println("번호\t제목\t작성일\t조회수");
 
-    Object[] boards = this.boardDao.findAll();
+    Board[] boards = this.boardDao.findAll();
 
-    for (Object obj : boards) {
-      Board b = (Board) obj;
+    for (Board b : boards) {
       System.out.printf("%d\t%s\t%s\t%d\n",
           b.getNo(), b.getTitle(), b.getCreatedDate(), b.getViewCount());
     }
@@ -114,11 +114,12 @@ public class BoardHandler {
   }
 
   private void searchBoard() {
-    Object[] boards = this.boardDao.findAll();
+    Board[] boards = this.boardDao.findAll();
+
     String keyword = Prompt.inputString("검색어? ");
     System.out.println("번호\t제목\t작성일\t조회수");
-    for (Object obj : boards) {
-      Board b = (Board) obj;
+
+    for (Board b : boards) {
       if (b.getTitle().indexOf(keyword) != -1 ||
           b.getContent().indexOf(keyword) != -1) {
         System.out.printf("%d\t%s\t%s\t%d\n",

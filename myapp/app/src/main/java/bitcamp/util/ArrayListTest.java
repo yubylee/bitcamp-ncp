@@ -2,7 +2,7 @@ package bitcamp.util;
 
 import java.util.Objects;
 
-public class LinkedListTest {
+public class ArrayListTest {
 
   static class Member {
     int no;
@@ -41,7 +41,7 @@ public class LinkedListTest {
   }
 
   public static void main(String[] args) {
-    LinkedList list = new LinkedList();
+    ArrayList list = new ArrayList();
 
     list.add(new Member(1, "aaa", "1111"));
     list.add(new Member(2, "bbb", "2222"));
@@ -57,7 +57,7 @@ public class LinkedListTest {
     //    print(list);
     //    System.out.println(list.remove(new Member(2, null, null)));
     //    print(list);
-    //    list.add(new Member(5, "ddd", "4444"));
+    //    System.out.println(list.remove(new Member(5, "ddd", "4444")));
     //    print(list);
 
     list.set(2, new Member(3, "cccx", "3333x"));
@@ -71,7 +71,7 @@ public class LinkedListTest {
 
   }
 
-  static void print(LinkedList list) {
+  static void print(ArrayList list) {
     System.out.println("------------------------------------------------");
     for (Object obj : list.toArray()) {
       System.out.println(obj);
