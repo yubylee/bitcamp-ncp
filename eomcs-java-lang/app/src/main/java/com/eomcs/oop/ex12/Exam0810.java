@@ -32,6 +32,12 @@ public class Exam0810 {
 
     // 4) 기존에 존재하는 메서드를 인터페이스 구현체로 사용한다.
     printCar(Exam0810::createCar);
+    //    printCar(new Factory() {
+    //      @Override
+    //      public Object create() {
+    //        return Exam0810.createCar();
+    //      }
+    //    });
 
     // 5) 기존 클래스의 생성자를 인터페이스 구현체로 사용한다.
     printCar(Car::new);

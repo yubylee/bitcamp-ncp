@@ -12,6 +12,10 @@ public class Exam0321 {
   }
 
   public static void main(String[] args) {
+
+
+
+
     // 익명 클래스로 정의한다면?
     test(new Calculator() {
       @Override
