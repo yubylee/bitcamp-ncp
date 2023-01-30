@@ -8,6 +8,13 @@ public class Member {
   private String tel;
   private String createdDate;
 
+
+
+  @Override
+  public String toString() {
+    return "Member [no=" + no + ", name=" + name + ", tel=" + tel + ", createdDate=" + createdDate
+        + "]";
+  }
   @Override
   public int hashCode() {
     return Objects.hash(no);
