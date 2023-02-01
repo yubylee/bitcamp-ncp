@@ -31,18 +31,13 @@ public class PreServer {
       //        out.println(s);
       //      }
 
+      String[] arr = message.split(" ");
 
-
-      char[] arr = new char[message.length()];
-
-      for (int i = 0; i < arr.length; i++) {
-        arr[i] = message.charAt(i);
-      }
       String result = null;
-      int one = arr[0];
-      String sachic = String.valueOf(arr[1]);
-      int two = arr[2];
-      switch (sachic) {
+      int one = Integer.parseInt(arr[0]);
+      int two = Integer.parseInt(arr[2]);
+      String center = arr[1];
+      switch (center) {
         case "+":
           result = Integer.toString(one + two);
           break;
@@ -59,6 +54,37 @@ public class PreServer {
           result = "error";
       }
       out.println(result);
+
+
+
+
+
+      //      char[] arr = new char[message.length()];
+      //
+      //      for (int i = 0; i < arr.length; i++) {
+      //        arr[i] = message.charAt(i);
+      //      }
+      //      String result = null;
+      //      int one = arr[0];
+      //      String sachic = String.valueOf(arr[1]);
+      //      int two = arr[2];
+      //      switch (sachic) {
+      //        case "+":
+      //          result = Integer.toString(one + two);
+      //          break;
+      //        case "-":
+      //          result = Integer.toString(one - two);
+      //          break;
+      //        case "*":
+      //          result = Integer.toString(one * two);
+      //          break;
+      //        case "/":
+      //          result = Integer.toString(one / two);
+      //          break;
+      //        default:
+      //          result = "error";
+      //      }
+      //      out.println(result);
       //      out.println(arr[0]);
       //      out.println(arr[1]);
       //      out.println(arr[2]);
