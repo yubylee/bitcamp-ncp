@@ -2,19 +2,14 @@ package bitcamp.myapp.vo;
 
 import java.util.Objects;
 
-public class Member {
+public class Member implements java.io.Serializable {
+  private static final long serialVersionUID = 1L;
+
   private int no;
   private String name;
   private String tel;
   private String createdDate;
 
-
-
-  @Override
-  public String toString() {
-    return "Member [no=" + no + ", name=" + name + ", tel=" + tel + ", createdDate=" + createdDate
-        + "]";
-  }
   @Override
   public int hashCode() {
     return Objects.hash(no);

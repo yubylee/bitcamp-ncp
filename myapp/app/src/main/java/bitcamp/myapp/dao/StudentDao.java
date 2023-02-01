@@ -1,13 +1,14 @@
 package bitcamp.myapp.dao;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import bitcamp.myapp.vo.Student;
-import bitcamp.util.BinaryDecoder;
-import bitcamp.util.BinaryEncoder;
 
 public class StudentDao {
 
@@ -18,7 +19,6 @@ public class StudentDao {
   public StudentDao(List<Student> list) {
     this.list = list;
   }
-
 
   public void insert(Student s) {
     s.setNo(++lastNo);
@@ -56,59 +56,36 @@ public class StudentDao {
     return list.remove(s);
   }
 
-
   public void save(String filename) {
-    try(
-        FileOutputStream out = new FileOutputStream(filename)){
-      out.write(BinaryEncoder.write(list.size()));
-      for(Student s : list) {
-        out.write(BinaryEncoder.write(s.getNo()));
-        out.write(BinaryEncoder.write(s.getName()));
-        out.write(BinaryEncoder.write(s.getTel()));
-        out.write(BinaryEncoder.write(s.getPostNo()));
-        out.write(BinaryEncoder.write(s.getBasicAddress()));
-        out.write(BinaryEncoder.write(s.getDetailAddress()));
-        out.write(BinaryEncoder.write(s.isWorking()));
-        out.write(BinaryEncoder.write(s.getGender()));
-        out.write(BinaryEncoder.write(s.getLevel()));
-        out.write(BinaryEncoder.write(s.getCreatedDate()));
+    try (FileWriter out = new FileWriter(filename)) {
 
-      }
-    } catch(Exception e) {
+      out.write(new Gson().toJson(list));
+
+    } catch (Exception e) {
       e.printStackTrace();
     }
-
   }
 
   public void load(String filename) {
-    if (list.size() > 0) {
+    if (list.size() > 0) { // 중복 로딩 방지!
       return;
     }
-    try(
-        FileInputStream in = new FileInputStream(filename)){
-      int size = BinaryDecoder.readInt(in);
-      for (int i = 0; i < size; i++) {
-        Student s = new Student();
-        s.setNo(BinaryDecoder.readInt(in));
-        s.setName(BinaryDecoder.readString(in));
-        s.setTel(BinaryDecoder.readString(in));
-        s.setPostNo(BinaryDecoder.readString(in));
-        s.setBasicAddress(BinaryDecoder.readString(in));
-        s.setDetailAddress(BinaryDecoder.readString(in));
-        s.setWorking(BinaryDecoder.readBoolean(in));
-        s.setGender(BinaryDecoder.readChar(in));
-        s.setLevel(BinaryDecoder.readByte(in));
-        s.setCreatedDate(BinaryDecoder.readString(in));
 
-        list.add(s);
-      }
+    try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
+
+      TypeToken<List<Student>> collectionType = new TypeToken<>() {};
+
+      list = new Gson().fromJson(in, collectionType);
+
       if (list.size() > 0) {
         lastNo = list.get(list.size() - 1).getNo();
       }
-    }catch(Exception e) {
+
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
+
 }
 
 

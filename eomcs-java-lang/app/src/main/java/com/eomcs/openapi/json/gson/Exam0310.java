@@ -33,7 +33,6 @@ public class Exam0310 {
     list.add(m3);
 
     String jsonStr = new Gson().toJson(list);
-
     System.out.println(jsonStr);
   }
 }
@@ -42,7 +41,7 @@ public class Exam0310 {
 // => 배열을 출력한 것과 같다.
 //    JSON은 배열과 컬렉션을 구분하지 않는다.
 // => [
-//      {"프로퍼티명":값,"프로퍼티명":값, ...}, 
+//      {"프로퍼티명":값,"프로퍼티명":값, ...},
 //      {"프로퍼티명":값,"프로퍼티명":값, ...},
 //      {"프로퍼티명":값,"프로퍼티명":값, ...},
 //      ...

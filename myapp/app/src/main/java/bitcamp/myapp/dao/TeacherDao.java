@@ -1,17 +1,19 @@
 package bitcamp.myapp.dao;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import bitcamp.myapp.vo.Teacher;
-import bitcamp.util.BinaryDecoder;
-import bitcamp.util.BinaryEncoder;
 
 public class TeacherDao {
 
   List<Teacher> list;
+
   int lastNo;
 
   public TeacherDao(List<Teacher> list) {
@@ -28,7 +30,7 @@ public class TeacherDao {
     Teacher[] teachers = new Teacher[list.size()];
     Iterator<Teacher> i = list.iterator();
     int index = 0;
-    while (i.hasNext()){
+    while (i.hasNext()) {
       teachers[index++] = i.next();
     }
     return teachers;
@@ -56,55 +58,31 @@ public class TeacherDao {
   }
 
   public void save(String filename) {
-    try (
-        FileOutputStream out = new FileOutputStream(filename)) {
+    try (FileWriter out = new FileWriter(filename)) {
 
-      out.write(BinaryEncoder.write(list.size()));
-
-      for (Teacher t : list) {
-        out.write(BinaryEncoder.write(t.getNo()));
-        out.write(BinaryEncoder.write(t.getName()));
-        out.write(BinaryEncoder.write(t.getTel()));
-        out.write(BinaryEncoder.write(t.getEmail()));
-        out.write(BinaryEncoder.write(t.getDegree()));
-        out.write(BinaryEncoder.write(t.getSchool()));
-        out.write(BinaryEncoder.write(t.getMajor()));
-        out.write(BinaryEncoder.write(t.getWage()));
-        out.write(BinaryEncoder.write(t.getCreatedDate()));
-      }
+      out.write(new Gson().toJson(list));
 
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
-
   public void load(String filename) {
-    if (list.size() > 0) {
+    if (list.size() > 0) { // 중복 로딩 방지!
       return;
     }
-    try (
-        FileInputStream in = new FileInputStream(filename)) {
 
-      int size = BinaryDecoder.readInt(in);
+    try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
 
-      for (int i = 0; i < size; i++) {
-        Teacher t = new Teacher();
-        t.setNo(BinaryDecoder.readInt(in));
-        t.setName(BinaryDecoder.readString(in));
-        t.setTel(BinaryDecoder.readString(in));
-        t.setEmail(BinaryDecoder.readString(in));
-        t.setDegree(BinaryDecoder.readInt(in));
-        t.setSchool(BinaryDecoder.readString(in));
-        t.setMajor(BinaryDecoder.readString(in));
-        t.setWage(BinaryDecoder.readInt(in));
-        t.setCreatedDate(BinaryDecoder.readString(in));
+      TypeToken<List<Teacher>> collectionType = new TypeToken<>() {};
 
-        list.add(t);
-      }
+      list = new Gson().fromJson(in, collectionType);
+
+
       if (list.size() > 0) {
         lastNo = list.get(list.size() - 1).getNo();
       }
+
     } catch (Exception e) {
       e.printStackTrace();
     }

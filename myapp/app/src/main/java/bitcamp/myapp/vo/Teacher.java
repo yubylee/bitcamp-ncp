@@ -1,53 +1,48 @@
 package bitcamp.myapp.vo;
 
-import java.util.Objects;
+public class Teacher extends Member implements java.io.Serializable {
+  private static final long serialVersionUID = 1L;
 
-public class Teacher extends Member {
   private String email;
   private int degree;
   private String school;
   private String major;
   private int wage;
 
+  public static Teacher create(String csv) {
+    try {
+      String[] values = csv.split(",");
 
+      Teacher obj = new Teacher();
+      obj.setNo(Integer.parseInt(values[0]));
+      obj.setName(values[1]);
+      obj.setTel(values[2]);
+      obj.setCreatedDate(values[3]);
+      obj.setEmail(values[4]);
+      obj.setDegree(Integer.parseInt(values[5]));
+      obj.setSchool(values[6]);
+      obj.setMajor(values[7]);
+      obj.setWage(Integer.parseInt(values[8]));
 
+      return obj;
 
-
-
-
-  @Override
-  public String toString() {
-    return "Teacher [email=" + email + ", degree=" + degree + ", school=" + school + ", major="
-        + major + ", wage=" + wage + "]";
+    } catch (Exception e) {
+      throw new RuntimeException("Teacher 객체 생성 오류", e);
+    }
   }
 
-
-
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = super.hashCode();
-    result = prime * result + Objects.hash(degree, email, major, school, wage);
-    return result;
+  public String toCsvString() {
+    return String.format("%d,%s,%s,%s,%s,%d,%s,%s,%d",
+        this.getNo(),
+        this.getName(),
+        this.getTel(),
+        this.getCreatedDate(),
+        this.getEmail(),
+        this.getDegree(),
+        this.getSchool(),
+        this.getMajor(),
+        this.getWage());
   }
-
-
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (!super.equals(obj))
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    Teacher other = (Teacher) obj;
-    return degree == other.degree && Objects.equals(email, other.email)
-        && Objects.equals(major, other.major) && Objects.equals(school, other.school)
-        && wage == other.wage;
-  }
-
-
 
   public String getEmail() {
     return email;
