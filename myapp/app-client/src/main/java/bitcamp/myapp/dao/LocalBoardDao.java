@@ -10,21 +10,23 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import bitcamp.myapp.vo.Board;
 
-public class BoardDao {
+public class LocalBoardDao implements BoardDao {
 
   List<Board> list;
   int lastNo;
 
-  public BoardDao(List<Board> list) {
+  public LocalBoardDao(List<Board> list) {
     this.list = list;
   }
 
+  @Override
   public void insert(Board board) {
     board.setNo(++lastNo);
     board.setCreatedDate(new Date(System.currentTimeMillis()).toString());
     list.add(board);
   }
 
+  @Override
   public Board[] findAll() {
     Board[] boards = new Board[list.size()];
     Iterator<Board> i = list.iterator();
@@ -35,6 +37,7 @@ public class BoardDao {
     return boards;
   }
 
+  @Override
   public Board findByNo(int no) {
     Board b = new Board();
     b.setNo(no);
@@ -47,11 +50,13 @@ public class BoardDao {
     return list.get(index);
   }
 
+  @Override
   public void update(Board b) {
     int index = list.indexOf(b);
     list.set(index, b);
   }
 
+  @Override
   public boolean delete(Board b) {
     return list.remove(b);
   }

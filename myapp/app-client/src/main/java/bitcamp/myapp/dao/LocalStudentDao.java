@@ -10,22 +10,24 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import bitcamp.myapp.vo.Student;
 
-public class StudentDao {
+public class LocalStudentDao implements StudentDao {
 
   List<Student> list;
 
   int lastNo;
 
-  public StudentDao(List<Student> list) {
+  public LocalStudentDao(List<Student> list) {
     this.list = list;
   }
 
+  @Override
   public void insert(Student s) {
     s.setNo(++lastNo);
     s.setCreatedDate(new Date(System.currentTimeMillis()).toString());
     list.add(s);
   }
 
+  @Override
   public Student[] findAll() {
     Student[] students = new Student[list.size()];
     Iterator<Student> i = list.iterator();
@@ -36,6 +38,7 @@ public class StudentDao {
     return students;
   }
 
+  @Override
   public Student findByNo(int no) {
     Student s = new Student();
     s.setNo(no);
@@ -47,11 +50,13 @@ public class StudentDao {
     return list.get(index);
   }
 
+  @Override
   public void update(Student s) {
     int index = list.indexOf(s);
     list.set(index, s);
   }
 
+  @Override
   public boolean delete(Student s) {
     return list.remove(s);
   }

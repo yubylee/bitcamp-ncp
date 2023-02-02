@@ -15,6 +15,8 @@ public class BoardDao {
   List<Board> list;
   int lastNo;
 
+
+
   public BoardDao(List<Board> list) {
     this.list = list;
   }

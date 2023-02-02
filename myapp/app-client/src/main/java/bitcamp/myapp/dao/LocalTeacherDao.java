@@ -8,52 +8,58 @@ import java.util.Iterator;
 import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import bitcamp.myapp.vo.Student;
+import bitcamp.myapp.vo.Teacher;
 
-public class StudentDao {
+public class LocalTeacherDao implements TeacherDao {
 
-  List<Student> list;
+  List<Teacher> list;
 
   int lastNo;
 
-  public StudentDao(List<Student> list) {
+  public LocalTeacherDao(List<Teacher> list) {
     this.list = list;
   }
 
-  public void insert(Student s) {
-    s.setNo(++lastNo);
-    s.setCreatedDate(new Date(System.currentTimeMillis()).toString());
-    list.add(s);
+  @Override
+  public void insert(Teacher t) {
+    t.setNo(++lastNo);
+    t.setCreatedDate(new Date(System.currentTimeMillis()).toString());
+    list.add(t);
   }
 
-  public Student[] findAll() {
-    Student[] students = new Student[list.size()];
-    Iterator<Student> i = list.iterator();
+  @Override
+  public Teacher[] findAll() {
+    Teacher[] teachers = new Teacher[list.size()];
+    Iterator<Teacher> i = list.iterator();
     int index = 0;
     while (i.hasNext()) {
-      students[index++] = i.next();
+      teachers[index++] = i.next();
     }
-    return students;
+    return teachers;
   }
 
-  public Student findByNo(int no) {
-    Student s = new Student();
-    s.setNo(no);
+  @Override
+  public Teacher findByNo(int no) {
+    Teacher t = new Teacher();
+    t.setNo(no);
 
-    int index = list.indexOf(s);
+    int index = list.indexOf(t);
     if (index == -1) {
       return null;
     }
+
     return list.get(index);
   }
 
-  public void update(Student s) {
-    int index = list.indexOf(s);
-    list.set(index, s);
+  @Override
+  public void update(Teacher t) {
+    int index = list.indexOf(t);
+    list.set(index, t);
   }
 
-  public boolean delete(Student s) {
-    return list.remove(s);
+  @Override
+  public boolean delete(Teacher t) {
+    return list.remove(t);
   }
 
   public void save(String filename) {
@@ -73,7 +79,7 @@ public class StudentDao {
 
     try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
 
-      list = new Gson().fromJson(in, new TypeToken<List<Student>>() {});
+      list = new Gson().fromJson(in, new TypeToken<List<Teacher>>() {});
 
       if (list.size() > 0) {
         lastNo = list.get(list.size() - 1).getNo();
