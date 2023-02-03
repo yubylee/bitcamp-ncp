@@ -1,8 +1,6 @@
 package bitcamp.myapp;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.net.Socket;
+import bitcamp.myapp.dao.DaoStub;
 import bitcamp.myapp.dao.NetworkBoardDao;
 import bitcamp.myapp.dao.NetworkStudentDao;
 import bitcamp.myapp.dao.NetworkTeacherDao;
@@ -18,17 +16,13 @@ public class ClientApp {
   }
 
   void execute(String ip, int port) {
-    try (Socket socket = new Socket(ip, port);
-        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-        DataInputStream in = new DataInputStream(socket.getInputStream())) {
+    try {
+      DaoStub daoStub = new DaoStub(ip, port);
+      NetworkBoardDao boardDao = new NetworkBoardDao(daoStub);
+      NetworkStudentDao studentDao = new NetworkStudentDao(daoStub);
+      NetworkTeacherDao teacherDao = new NetworkTeacherDao(daoStub);
 
-      NetworkBoardDao boardDao = new NetworkBoardDao(in, out);
-
-      NetworkStudentDao memberDao = new NetworkStudentDao(in, out);
-
-      NetworkTeacherDao teacherDao = new NetworkTeacherDao(in, out);
-
-      StudentHandler studentHandler = new StudentHandler("학생", memberDao);
+      StudentHandler studentHandler = new StudentHandler("학생", studentDao);
       TeacherHandler teacherHandler = new TeacherHandler("강사", teacherDao);
       BoardHandler boardHandler = new BoardHandler("게시판", boardDao);
 
@@ -57,7 +51,8 @@ public class ClientApp {
             case 3:
               boardHandler.service();
               break;
-            case 9: break loop; // loop 라벨이 붙은 while 문을 나간다.
+            case 9:
+              break loop; // loop 라벨이 붙은 while 문을 나간다.
             default:
               System.out.println("잘못된 메뉴 번호 입니다.");
           }
