@@ -10,18 +10,18 @@ public class StreamTool {
   DataInputStream in;
   DataOutputStream out;
   StringWriter stringWriter = new StringWriter();
-  PrintWriter printWriter= new PrintWriter(stringWriter);
+  PrintWriter printWriter = new PrintWriter(stringWriter);
 
   public StreamTool(DataInputStream in, DataOutputStream out) {
     this.in = in;
-    this.out = out;;
+    this.out = out;
   }
 
   public String readString() throws Exception {
     return in.readUTF();
   }
 
-  public int readInt() throws Exception{
+  public int readInt() throws Exception {
     return Integer.parseInt(readString());
   }
 
@@ -65,3 +65,12 @@ public class StreamTool {
   }
 
 }
+
+
+
+
+
+
+
+
+
