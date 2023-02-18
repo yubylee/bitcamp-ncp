@@ -1,5 +1,6 @@
 package bitcamp.myapp.vo;
 
+import java.sql.Date;
 import java.util.Objects;
 
 public class Board implements java.io.Serializable {
@@ -9,7 +10,7 @@ public class Board implements java.io.Serializable {
   private String title;
   private String content;
   private String password;
-  private String createdDate;
+  private Date createdDate;
   private int viewCount;
 
   // Factory Method 패턴 + Information Expert 패턴
@@ -88,10 +89,10 @@ public class Board implements java.io.Serializable {
   public void setPassword(String password) {
     this.password = password;
   }
-  public String getCreatedDate() {
+  public Date getCreatedDate() {
     return createdDate;
   }
-  public void setCreatedDate(String createdDate) {
+  public void setCreatedDate(Date createdDate) {
     this.createdDate = createdDate;
   }
   public int getViewCount() {

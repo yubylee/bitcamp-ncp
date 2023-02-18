@@ -2,23 +2,26 @@ package bitcamp.myapp;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import bitcamp.myapp.dao.impl.BoardDaoImpl;
-import bitcamp.myapp.dao.impl.MemberDaoImpl;
-import bitcamp.myapp.dao.impl.StudentDaoImpl;
-import bitcamp.myapp.dao.impl.TeacherDaoImpl;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import bitcamp.myapp.dao.BoardDao;
+import bitcamp.myapp.dao.MemberDao;
+import bitcamp.myapp.dao.StudentDao;
+import bitcamp.myapp.dao.TeacherDao;
 import bitcamp.myapp.handler.BoardHandler;
 import bitcamp.myapp.handler.HelloHandler;
 import bitcamp.myapp.handler.StudentHandler;
 import bitcamp.myapp.handler.TeacherHandler;
+import bitcamp.util.BitcampSqlSessionFactory;
+import bitcamp.util.DaoGenerator;
 import bitcamp.util.StreamTool;
+import bitcamp.util.TransactionManager;
 
 public class ServerApp {
 
-  Connection con;
   StudentHandler studentHandler;
   TeacherHandler teacherHandler;
   BoardHandler boardHandler;
@@ -34,43 +37,50 @@ public class ServerApp {
   }
 
   public ServerApp() throws Exception{
-    this.con = DriverManager.getConnection(
-        "jdbc:mariadb://192.168.0.29:3306/studydb", "study", "1111");
 
-    BoardDaoImpl boardDao = new BoardDaoImpl(con);
-    MemberDaoImpl memberDao = new MemberDaoImpl(con);
-    StudentDaoImpl studentDao = new StudentDaoImpl(con);
-    TeacherDaoImpl teacherDao = new TeacherDaoImpl(con);
+    // Mybatis API 사용 준비
+    // 1) Mybatis 설정 파일 준비
+    //    => resources/bitcamp/myapp/config/mybatis-config.xml
 
-    this.studentHandler = new StudentHandler("학생", con, memberDao, studentDao);
-    this.teacherHandler = new TeacherHandler("강사", con, memberDao, teacherDao);
+    // 2) SQL Mapper 파일 준비
+    //    => resources/bitcamp/myapp/mapper/BoardMapper.xml
+
+    // 3) Mybatis 설정 파일을 읽을 때 사용할 입력 스트림 객체 준비
+    InputStream mybatisConfigInputStream = Resources.getResourceAsStream(
+        "bitcamp/myapp/config/mybatis-config.xml");
+
+    // 4) SqlSessionFactoryBuilder 객체 준비
+    SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
+
+    // 5) builder를 이용하여 SqlSessionFactory 객체 생성
+    // 6) 오리지널 SqlSessionFactory에 트랜잭션 보조 기능이 덧붙여진 프록시 객체를 준비한다.
+    BitcampSqlSessionFactory sqlSessionFactory = new BitcampSqlSessionFactory(
+        builder.build(mybatisConfigInputStream));
+
+    // 7) BitcampSqlSessionFactory객체를 이용하여 트랜잭션을 다루는 객체를 준비한다.
+    TransactionManager txManager = new TransactionManager(sqlSessionFactory);
+
+    // DAO 구현체 생성기 준비
+    DaoGenerator daoGenerator = new DaoGenerator(sqlSessionFactory);
+
+    // DAO 제너레이터를 이용한 DAO 구현체 생성
+    BoardDao boardDao = daoGenerator.getObject(BoardDao.class);
+    MemberDao memberDao = daoGenerator.getObject(MemberDao.class);
+    StudentDao studentDao = daoGenerator.getObject(StudentDao.class);
+    TeacherDao teacherDao = daoGenerator.getObject(TeacherDao.class);
+
+    this.studentHandler = new StudentHandler("학생", txManager, memberDao, studentDao);
+    this.teacherHandler = new TeacherHandler("강사", txManager, memberDao, teacherDao);
     this.boardHandler = new BoardHandler("게시판", boardDao);
   }
 
   void execute(int port) {
-
-    try (Connection con = this.con;
-        ServerSocket serverSocket = new ServerSocket(port)) {
+    try (ServerSocket serverSocket = new ServerSocket(port)) {
       System.out.println("서버 실행 중...");
 
-      try (Socket socket = serverSocket.accept();
-          DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-          DataInputStream in = new DataInputStream(socket.getInputStream())) {
-
-        // 입출력 보조 도구 준비
-        StreamTool streamTool = new StreamTool(in, out);
-
-        String clientIP = socket.getInetAddress().getHostAddress();
-        System.out.printf("접속: %s\n", clientIP);
-
-        hello(streamTool);
-        processRequest(streamTool);
-
-        System.out.printf("끊기: %s\n", clientIP);
-
-      } catch (Exception e) {
-        System.out.println("클라이언트 요청 처리 오류!");
-        e.printStackTrace();
+      while (true) {
+        Socket socket = serverSocket.accept();
+        new Thread(() -> service(socket)).start();
       }
 
     } catch (Exception e) {
@@ -148,6 +158,29 @@ public class ServerApp {
     .println("9. 종료")
     .println("메뉴 번호:")
     .send();
+  }
+
+  public void service(Socket clientSocket) {
+    // 스레드가 실행할 코드를 둔다.
+    try (Socket socket = clientSocket;
+        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+        DataInputStream in = new DataInputStream(socket.getInputStream())) {
+
+      // 입출력 보조 도구 준비
+      StreamTool streamTool = new StreamTool(in, out);
+
+      String clientIP = socket.getInetAddress().getHostAddress();
+      System.out.printf("접속: %s\n", clientIP);
+
+      hello(streamTool);
+      processRequest(streamTool);
+
+      System.out.printf("끊기: %s\n", clientIP);
+
+    } catch (Exception e) {
+      System.out.println("클라이언트 요청 처리 오류!");
+      e.printStackTrace();
+    }
   }
 }
 

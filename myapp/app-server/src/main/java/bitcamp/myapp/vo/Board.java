@@ -3,22 +3,20 @@ package bitcamp.myapp.vo;
 import java.sql.Date;
 import java.util.Objects;
 
-public class Member implements java.io.Serializable {
+public class Board implements java.io.Serializable {
   private static final long serialVersionUID = 1L;
 
   private int no;
-  private String name;
-  private String email;
+  private String title;
+  private String content;
   private String password;
-  private String tel;
   private Date createdDate;
-
-
+  private int viewCount;
 
   @Override
   public String toString() {
-    return "Member [no=" + no + ", name=" + name + ", email=" + email + ", password=" + password
-        + ", tel=" + tel + ", createdDate=" + createdDate + "]";
+    return "Board [no=" + no + ", title=" + title + ", content=" + content + ", password="
+        + password + ", createdDate=" + createdDate + ", viewCount=" + viewCount + "]";
   }
   @Override
   public int hashCode() {
@@ -32,7 +30,7 @@ public class Member implements java.io.Serializable {
       return false;
     if (getClass() != obj.getClass())
       return false;
-    Member other = (Member) obj;
+    Board other = (Board) obj;
     return no == other.no;
   }
 
@@ -42,17 +40,17 @@ public class Member implements java.io.Serializable {
   public void setNo(int no) {
     this.no = no;
   }
-  public String getName() {
-    return name;
+  public String getTitle() {
+    return title;
   }
-  public void setName(String name) {
-    this.name = name;
+  public void setTitle(String title) {
+    this.title = title;
   }
-  public String getEmail() {
-    return email;
+  public String getContent() {
+    return content;
   }
-  public void setEmail(String email) {
-    this.email = email;
+  public void setContent(String content) {
+    this.content = content;
   }
   public String getPassword() {
     return password;
@@ -60,20 +58,18 @@ public class Member implements java.io.Serializable {
   public void setPassword(String password) {
     this.password = password;
   }
-  public String getTel() {
-    return tel;
-  }
-  public void setTel(String tel) {
-    this.tel = tel;
-  }
   public Date getCreatedDate() {
     return createdDate;
   }
   public void setCreatedDate(Date createdDate) {
     this.createdDate = createdDate;
   }
-
-
+  public int getViewCount() {
+    return viewCount;
+  }
+  public void setViewCount(int viewCount) {
+    this.viewCount = viewCount;
+  }
 
 
 }

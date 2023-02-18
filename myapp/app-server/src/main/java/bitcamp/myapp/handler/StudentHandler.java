@@ -1,22 +1,22 @@
 package bitcamp.myapp.handler;
 
-import java.sql.Connection;
 import java.util.List;
 import bitcamp.myapp.dao.MemberDao;
 import bitcamp.myapp.dao.StudentDao;
 import bitcamp.myapp.vo.Student;
 import bitcamp.util.StreamTool;
+import bitcamp.util.TransactionManager;
 
 public class StudentHandler {
 
-  private Connection con;
+  private TransactionManager txManager;
   private MemberDao memberDao;
   private StudentDao studentDao;
   private String title;
 
-  public StudentHandler(String title, Connection con, MemberDao memberDao, StudentDao studentDao) {
+  public StudentHandler(String title, TransactionManager txManager, MemberDao memberDao, StudentDao studentDao) {
     this.title = title;
-    this.con = con;
+    this.txManager = txManager;
     this.memberDao = memberDao;
     this.studentDao = studentDao;
   }
@@ -34,21 +34,18 @@ public class StudentHandler {
     s.setGender(streamTool.promptInt("0. 남자\n1. 여자\n성별? ") == 0 ? 'M' : 'W');
     s.setLevel((byte) streamTool.promptInt("0. 비전공자\n1. 준전공자\n2. 전공자\n전공? "));
 
-    con.setAutoCommit(false);
+    txManager.startTransaction();
     try {
-      this.memberDao.insert(s);
-      this.studentDao.insert(s);
-      con.commit();
+      memberDao.insert(s);
+      studentDao.insert(s);
+      txManager.commit();
       streamTool.println("입력했습니다!").send();
 
     } catch (Exception e) {
-      con.rollback();
+      txManager.rollback();
       streamTool.println("입력 실패입니다!").send();
       e.printStackTrace();
-    } finally {
-      con.setAutoCommit(true);
     }
-
   }
 
   private void printMembers(StreamTool streamTool) throws Exception {
@@ -75,6 +72,7 @@ public class StudentHandler {
 
     streamTool
     .printf("    이름: %s\n", m.getName())
+    .printf("  이메일: %s\n", m.getEmail())
     .printf("    전화: %s\n", m.getTel())
     .printf("우편번호: %s\n", m.getPostNo())
     .printf("기본주소: %s\n", m.getBasicAddress())
@@ -112,6 +110,8 @@ public class StudentHandler {
     m.setNo(old.getNo());
     m.setCreatedDate(old.getCreatedDate());
     m.setName(streamTool.promptString(String.format("이름(%s)? ", old.getName())));
+    m.setEmail(streamTool.promptString(String.format("이메일(%s)? ", old.getEmail())));
+    m.setPassword(streamTool.promptString("암호? "));
     m.setTel(streamTool.promptString(String.format("전화(%s)? ", old.getTel())));
     m.setPostNo(streamTool.promptString(String.format("우편번호(%s)? ", old.getPostNo())));
     m.setBasicAddress(streamTool.promptString(String.format("기본주소(%s)? ", old.getBasicAddress())));
@@ -128,20 +128,17 @@ public class StudentHandler {
 
     String str = streamTool.promptString("정말 변경하시겠습니까?(y/N) ");
     if (str.equalsIgnoreCase("Y")) {
-      con.setAutoCommit(false);
+      txManager.startTransaction();
       try {
         memberDao.update(m);
         studentDao.update(m);
-        con.commit();
+        txManager.commit();
         streamTool.println("변경했습니다.");
 
       } catch (Exception e) {
-        con.rollback();
-        streamTool.println("변경 실패했습니다.");
+        txManager.rollback();
+        streamTool.println("변경 실패했습니다!");
         e.printStackTrace();
-
-      } finally {
-        con.setAutoCommit(true);
       }
     } else {
       streamTool.println("변경 취소했습니다.");
@@ -164,18 +161,17 @@ public class StudentHandler {
       streamTool.println("삭제 취소했습니다.").send();
       return;
     }
-    con.setAutoCommit(false);
+
+    txManager.startTransaction();
     try {
       studentDao.delete(memberNo);
       memberDao.delete(memberNo);
-      con.commit();
+      txManager.commit();
       streamTool.println("삭제했습니다.").send();
 
     } catch (Exception e) {
-      con.rollback();
+      txManager.rollback();
       streamTool.println("삭제 실패했습니다.").send();
-    } finally {
-      con.setAutoCommit(true);
     }
   }
 
