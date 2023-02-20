@@ -1,19 +1,15 @@
 package bitcamp.myapp.servlet.student;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import bitcamp.myapp.dao.StudentDao;
 import bitcamp.myapp.vo.Student;
-import bitcamp.util.BitcampSqlSessionFactory;
-import bitcamp.util.DaoGenerator;
 
 @WebServlet("/student/view")
 public class StudentViewServlet extends HttpServlet {
@@ -21,26 +17,11 @@ public class StudentViewServlet extends HttpServlet {
 
   private StudentDao studentDao;
 
-  private static String getLevelText(int level) {
-    switch (level) {
-      case 0: return "비전공자";
-      case 1: return "준전공자";
-      default: return "전공자";
-    }
-  }
 
-  public StudentViewServlet() {
-    try {
-      InputStream mybatisConfigInputStream = Resources.getResourceAsStream(
-          "bitcamp/myapp/config/mybatis-config.xml");
-      SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
-      BitcampSqlSessionFactory sqlSessionFactory = new BitcampSqlSessionFactory(
-          builder.build(mybatisConfigInputStream));
-      studentDao = new DaoGenerator(sqlSessionFactory).getObject(StudentDao.class);
-
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+  @Override
+  public void init()  {
+    ServletContext ctx = getServletContext();
+    studentDao = (StudentDao) ctx.getAttribute("studentDao");
   }
 
   @Override
@@ -59,82 +40,90 @@ public class StudentViewServlet extends HttpServlet {
     out.println("<title>비트캠프 - NCP 1기</title>");
     out.println("</head>");
     out.println("<body>");
-    out.println("<h1>학생관리</h1>");
+    out.println("<h1>학생</h1>");
 
-    Student s = this.studentDao.findByNo(studentNo);
+    Student student = this.studentDao.findByNo(studentNo);
 
-    if (s == null) {
-      out.println("<p>해당 번호의 게시글 없습니다.</p>");
+    if (student == null) {
+      out.println("<p>해당 번호의 학생이 없습니다.</p>");
 
     } else {
-
       out.println("<form id='student-form' action='update' method='post'>");
 
       out.println("<table border='1'>");
 
       out.println("<tr>");
       out.println("  <th>번호</th>");
-      out.printf("  <td><input type='text' name='no' value='%d' readonly></td>\n",  s.getNo());
+      out.printf("  <td><input type='text' name='no' value='%d'></td>\n",  student.getNo());
       out.println("</tr>");
 
       out.println("<tr>");
       out.println("  <th>이름</th>");
-      out.printf("  <td><input type='text' name='name' value='%s'></td>\n",  s.getName());
+      out.printf("  <td><input type='text' name='name' value='%s'></td>\n",  student.getName());
       out.println("</tr>");
 
       out.println("<tr>");
       out.println("  <th>이메일</th>");
-      out.printf("  <td><input type='text' name='email' value='%s'></td>\n",  s.getEmail());
-      out.println("</tr>");
-
-      out.println("<tr>");
-      out.println("  <th>전화</th>");
-      out.printf("  <td><input type='text' name='tel' value='%s'></td>\n",  s.getTel());
-      out.println("</tr>");
-
-      out.println("<tr>");
-      out.println("  <th>등록일</th>");
-      out.printf("  <td>%s</td>\n",  s.getCreatedDate());
-      out.println("</tr>");
-
-      out.println("<tr>");
-      out.println("  <th>우편번호</th>");
-      out.printf("  <td><input type='text' name='pst_no' value='%s'></td>\n",  s.getPostNo());
-      out.println("</tr>");
-
-      out.println("<tr>");
-      out.println("  <th>기본주소</th>");
-      out.printf("  <td><input type='text' name='bas_addr' value='%s'></td>\n",  s.getBasicAddress());
-      out.println("</tr>");
-
-      out.println("<tr>");
-      out.println("  <th>상세주소</th>");
-      out.printf("  <td><input type='text' name='det_addr' value='%s'></td>\n",  s.getDetailAddress());
-      out.println("</tr>");
-
-      out.println("<tr>");
-      out.println("  <th>워크</th>");
-      out.printf("  <td><input type='text' name='work' value='%s'></td>\n",  s.isWorking() ? "예" : "아니오");
-      out.println("</tr>");
-
-      out.println("<tr>");
-      out.println("  <th>성별</th>");
-      out.printf("  <td><input type='text' name='gender' value='%s'></td>\n",  s.getGender() == 'M' ? "남자" : "여자");
-      out.println("</tr>");
-
-      out.println("<tr>");
-      out.println("  <th>레벨</th>");
-      out.printf("  <td><input type='text' name='level' value='%s'></td>\n",  getLevelText(s.getLevel()));
+      out.printf("  <td><input type='email' name='email' value='%s'></td>\n",  student.getEmail());
       out.println("</tr>");
 
       out.println("<tr>");
       out.println("  <th>암호</th>");
-      out.println("  <td><input type='password' name='pwd'></td>");
+      out.println("  <td><input type='password' name='password'></td>");
+      out.println("</tr>");
+
+      out.println("<tr>");
+      out.println("  <th>전화</th>");
+      out.printf("  <td><input type='tel' name='tel' value='%s'></td>\n",  student.getTel());
+      out.println("</tr>");
+
+      out.println("<tr>");
+      out.println("  <th>우편번호</th>");
+      out.printf("  <td><input type='text' name='postNo' value='%s'></td>\n",  student.getPostNo());
+      out.println("</tr>");
+
+      out.println("<tr>");
+      out.println("  <th>기본주소</th>");
+      out.printf("  <td><input type='text' name='basicAddress' value='%s'></td>\n",  student.getBasicAddress());
+      out.println("</tr>");
+
+      out.println("<tr>");
+      out.println("  <th>상세주소</th>");
+      out.printf("  <td><input type='tel' name='detailAddress' value='%s'></td>\n",  student.getDetailAddress());
+      out.println("</tr>");
+
+      out.println("<tr>");
+      out.println("  <th>재직여부</th>");
+      out.printf("  <td><input type='checkbox' name='working' %s> 재직중</td>\n",  student.isWorking() ? "checked" : "");
+      out.println("</tr>");
+
+      out.println("<tr>");
+      out.println("  <th>성별</th>");
+      out.printf("  <td><input type='radio' name='gender' value='M' %s> 남\n"
+          + "<input type='radio' name='gender' value='W' %s> 여</td>\n"
+          , student.getGender() == 'M' ? "checked" : ""
+            , student.getGender() == 'W' ? "checked" : "");
+      out.println("</tr>");
+
+      out.println("<tr>");
+      out.println("  <th>전공</th>");
+      out.printf("  <td><select name='level'>"
+          + "<option value='0' %s>비전공자</option>"
+          + "<option value='1' %s>준전공자</option>"
+          + "<option value='2' %s>전공자</option>"
+          + "</select></td>\n"
+          , student.getLevel() == 0 ? "selected" : ""
+            , student.getLevel() == 1 ? "selected" : ""
+              , student.getLevel() == 2 ? "selected" : "");
+      out.println("</tr>");
+
+      out.println("<tr>");
+      out.println("  <th>등록일</th>");
+      out.printf("  <td>%s</td>\n",  student.getCreatedDate());
       out.println("</tr>");
 
       out.println("</table>");
     }
-
 
     out.println("<div>");
     out.println("  <button id='btn-list' type='button'>목록</button>");

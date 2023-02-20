@@ -9,7 +9,6 @@
     <result column="name" property="name"/>
     <result column="email" property="email"/>
     <result column="tel" property="tel"/>
-    <result column="pwd" property="password"/>
     <result column="created_date" property="createdDate"/>
     <result column="pst_no" property="postNo"/>
     <result column="bas_addr" property="basicAddress"/>
@@ -31,7 +30,7 @@
     values(#{no},#{postNo},#{basicAddress},#{detailAddress},#{working},#{gender},#{level})
   </insert>
 
-  <select id="findAll" resultMap="studentMap">
+  <select id="findAll" resultMap="studentMap" parameterType="string">
     select
       m.member_id,
       m.name,
@@ -42,6 +41,14 @@
     from 
       app_student s
       inner join app_member m on s.member_id = m.member_id
+    <if test="keyword != '' and keyword != null">
+    where
+      m.name like(concat('%', #{keyword}, '%'))
+      or m.email like(concat('%', #{keyword}, '%'))
+      or m.tel like(concat('%', #{keyword}, '%'))
+      or s.bas_addr like(concat('%', #{keyword}, '%'))
+      or s.det_addr like(concat('%', #{keyword}, '%'))
+    </if>
     order by
       m.name asc
   </select>
@@ -52,7 +59,6 @@
       m.name,
       m.email,
       m.tel,
-      m.pwd,
       m.created_date,
       s.pst_no,
       s.bas_addr,
@@ -65,27 +71,6 @@
       inner join app_member m on s.member_id = m.member_id
     where 
       m.member_id=#{no}
-  </select>
-  
-  <select id="findByKeyword" parameterType="string" resultMap="studentMap">
-    select
-      m.member_id,
-      m.name,
-      m.email,
-      m.tel,
-      s.work,
-      s.level
-    from 
-      app_student s
-      inner join app_member m on s.member_id = m.member_id
-    where
-      m.name like(concat('%', #{keyword}, '%'))
-      or m.email like(concat('%', #{keyword}, '%'))
-      or m.tel like(concat('%', #{keyword}, '%'))
-      or s.bas_addr like(concat('%', #{keyword}, '%'))
-      or s.det_addr like(concat('%', #{keyword}, '%'))
-    order by
-      m.name asc
   </select>
   
   <update id="update" parameterType="student">

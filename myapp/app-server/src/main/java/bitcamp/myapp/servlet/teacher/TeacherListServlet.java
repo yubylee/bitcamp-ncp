@@ -1,39 +1,30 @@
 package bitcamp.myapp.servlet.teacher;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.List;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import bitcamp.myapp.dao.TeacherDao;
 import bitcamp.myapp.vo.Teacher;
-import bitcamp.util.BitcampSqlSessionFactory;
-import bitcamp.util.DaoGenerator;
 
 @WebServlet("/teacher/list")
 public class TeacherListServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
+
   private TeacherDao teacherDao;
 
-  public TeacherListServlet() {
-    try {
-      InputStream mybatisConfigInputStream = Resources.getResourceAsStream(
-          "bitcamp/myapp/config/mybatis-config.xml");
-      SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
-      BitcampSqlSessionFactory sqlSessionFactory = new BitcampSqlSessionFactory(
-          builder.build(mybatisConfigInputStream));
-      teacherDao = new DaoGenerator(sqlSessionFactory).getObject(TeacherDao.class);
 
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+  @Override
+  public void init()  {
+    ServletContext ctx = getServletContext();
+
+    teacherDao = (TeacherDao) ctx.getAttribute("teacherDao");
   }
 
   @Override
@@ -49,27 +40,43 @@ public class TeacherListServlet extends HttpServlet {
     out.println("<title>비트캠프 - NCP 1기</title>");
     out.println("</head>");
     out.println("<body>");
-    out.println("<h1>강사관리</h1>");
+    out.println("<h1>강사</h1>");
 
-    out.println("<div><a href='form'>새 글</a></div>");
+    out.println("<div><a href='form'>새 강사</a></div>");
 
     out.println("<table border='1'>");
     out.println("<tr>");
-    out.println("  <th>번호</th> <th>이름</th> <th>전화</th> <th>학위</th> <th>전공</th> <th>수업료</th>");
+    out.println("  <th>번호</th> <th>이름</th> <th>전화</th> <th>학위</th> <th>전공</th> <th>시강료</th>");
     out.println("</tr>");
 
     List<Teacher> teachers = this.teacherDao.findAll();
-    for (Teacher t : teachers) {
+
+    for (Teacher teacher : teachers) {
       out.println("<tr>");
-      out.printf("  <td>%d</td> <td><a href='view?no=%d'>%s</a></td> <td>%s</td> <td>%s</td> "
-          + "<td>%s</td> <td>%d</td>\n",
-          t.getNo(), t.getNo(), t.getName(), t.getTel(),
-          t.getDegree(), t.getMajor(), t.getWage());
+      out.printf("  <td>%d</td> <td><a href='view?no=%d'>%s</a></td> <td>%s</td> <td>%s</td> <td>%s</td> <td>%d</td>\n",
+          teacher.getNo(),
+          teacher.getNo(),
+          teacher.getName(),
+          teacher.getTel(),
+          getDegreeText(teacher.getDegree()),
+          teacher.getMajor(),
+          teacher.getWage());
       out.println("</tr>");
     }
     out.println("</table>");
 
     out.println("</body>");
     out.println("</html>");
+  }
+
+  private static String getDegreeText(int degree) {
+    switch (degree) {
+      case 1: return "고졸";
+      case 2: return "전문학사";
+      case 3: return "학사";
+      case 4: return "석사";
+      case 5: return "박사";
+      default: return "기타";
+    }
   }
 }

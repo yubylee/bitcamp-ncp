@@ -1,44 +1,32 @@
 package bitcamp.myapp.servlet.student;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import bitcamp.myapp.dao.MemberDao;
 import bitcamp.myapp.dao.StudentDao;
-import bitcamp.myapp.vo.Student;
-import bitcamp.util.BitcampSqlSessionFactory;
-import bitcamp.util.DaoGenerator;
+import bitcamp.util.TransactionManager;
 
 @WebServlet("/student/delete")
 public class StudentDeleteServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
-  private StudentDao studentDao;
+  private TransactionManager txManager;
   private MemberDao memberDao;
+  private StudentDao studentDao;
 
-  public StudentDeleteServlet() {
-    try {
-      InputStream mybatisConfigInputStream = Resources.getResourceAsStream(
-          "bitcamp/myapp/config/mybatis-config.xml");
-      SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
-      BitcampSqlSessionFactory sqlSessionFactory = new BitcampSqlSessionFactory(
-          builder.build(mybatisConfigInputStream));
-      memberDao = new DaoGenerator(sqlSessionFactory).getObject(MemberDao.class);
-      studentDao = new DaoGenerator(sqlSessionFactory).getObject(StudentDao.class);
 
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+  @Override
+  public void init()  {
+    ServletContext ctx = getServletContext();
+    txManager = (TransactionManager) ctx.getAttribute("txManager");
+    memberDao = (MemberDao) ctx.getAttribute("memberDao");
+    studentDao = (StudentDao) ctx.getAttribute("studentDao");
   }
 
   @Override
@@ -57,29 +45,22 @@ public class StudentDeleteServlet extends HttpServlet {
     out.println("<title>비트캠프 - NCP 1기</title>");
     out.println("</head>");
     out.println("<body>");
-    out.println("<h1>학생관리</h1>");
+    out.println("<h1>학생</h1>");
 
-    Student old = studentDao.findByNo(studentNo);
-
-    MessageDigest md = null;
+    txManager.startTransaction();
     try {
-      md = MessageDigest.getInstance("SHA-256");
-    } catch (NoSuchAlgorithmException e) {
+      if (studentDao.delete(studentNo) == 1 &&
+          memberDao.delete(studentNo) == 1) {
+        txManager.commit();
+        out.println("<p>삭제했습니다.</p>");
+
+      } else {
+        out.println("<p>해당 번호의 학생이 없습니다.</p>");
+      }
+    } catch (Exception e) {
+      txManager.rollback();
+      out.println("<p>삭제 실패입니다.</p>");
       e.printStackTrace();
-    }
-    md.update(request.getParameter("pwd").getBytes());
-    String shaPwd = String.format("%064x", new BigInteger(1, md.digest()));
-
-    if (old == null) {
-      out.println("<p>해당 번호의 게시글이 없습니다.</p>");
-
-    } else if (!old.getPassword().equals(shaPwd)) {
-      out.println("<p>암호가 맞지 않습니다!</p>");
-
-    } else {
-      this.studentDao.delete(studentNo);
-      this.memberDao.delete(studentNo);
-      out.println("<p>삭제했습니다.</p>");
     }
 
     out.println("</body>");
