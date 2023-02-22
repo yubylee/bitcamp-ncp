@@ -52,6 +52,7 @@
         => request.getHeaders("헤더명");
     cookie 
       - ${ cookie.쿠키명 }
+      - ${ cookie.쿠키명.value }
     initParam 
       - ${ initParam.파라미터명 }
     

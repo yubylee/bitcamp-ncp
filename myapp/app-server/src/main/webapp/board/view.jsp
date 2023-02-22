@@ -37,8 +37,8 @@
    </tr>
 
    <tr>
-     <th>암호</th>
-     <td><input type='password' name='password'></td>
+     <th>작성자</th>
+      <td>${board.writer.name}</td>
    </tr>
 
    <tr>
