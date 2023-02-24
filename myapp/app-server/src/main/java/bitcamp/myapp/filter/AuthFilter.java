@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import bitcamp.myapp.vo.Member;
 
 @WebFilter("/*")
-public class AuthFilter implements Filter{
+public class AuthFilter implements Filter {
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -30,12 +30,21 @@ public class AuthFilter implements Filter{
       // 로그인 사용자의 정보를 가져온다.
       Member loginUser = (Member) httpRequest.getSession().getAttribute("loginUser");
       if (loginUser == null) {
-        httpResponse.sendRedirect(contextRoot + "../auth/form");
+        httpResponse.sendRedirect(contextRoot + "/auth/form");
         return;
       }
     }
 
-
-    chain.doFilter(request, response); // 다음 필터 실행. 다음 필터가 업으면 최종 목적지인 서블릿 실행.
+    chain.doFilter(request, response); // 다음 필터 실행. 다음 필터가 없으면 최종 목적지인 서블릿 실행.
   }
 }
+
+
+
+
+
+
+
+
+
+

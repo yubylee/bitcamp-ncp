@@ -15,6 +15,7 @@ public class StudentFormServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
-    request.getRequestDispatcher("/student/form.jsp").forward(request, response);
+    request.setAttribute("view", "/student/form.jsp");
+
   }
 }

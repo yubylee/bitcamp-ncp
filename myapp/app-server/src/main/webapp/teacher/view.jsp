@@ -80,13 +80,13 @@
   </tr>
 
   </table>
-  <div>
-    <button id='btn-list' type='button'>목록</button>
-    <button>변경</button>
-    <button id='btn-delete' type='button'>삭제</button>
-  </div>
-  
-  </form>
+	<div>
+	  <button id='btn-list' type='button'>목록</button>
+	  <button>변경</button>
+	  <button id='btn-delete' type='button'>삭제</button>
+	</div>
+	
+	</form>
 </c:if>
 
 <script>

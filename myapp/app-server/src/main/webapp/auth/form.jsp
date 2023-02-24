@@ -33,7 +33,7 @@
 </tr>
 </table>
 <div>
-  <input type="checkbox" name="saveEmail">이메일 저장<br>
+  <input type="checkbox" name="saveEmail"> 이메일 저장<br>
   <button>로그인</button>
 </div>
 </form>

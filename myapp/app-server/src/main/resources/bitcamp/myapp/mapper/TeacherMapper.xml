@@ -58,7 +58,7 @@
     where m.member_id=#{no}
   </select>
   
-    <select id="findByEmailAndPassword" parameterType="map" resultMap="teacherMap">
+  <select id="findByEmailAndPassword" parameterType="map" resultMap="teacherMap">
     select
       m.member_id,
       m.name,
@@ -73,8 +73,8 @@
       app_teacher t
       inner join app_member m on t.member_id = m.member_id
     where 
-      m.email_id=#{email}
-      and m.pwd=sha2(#{password},256)
+      m.email = #{email}
+      and m.pwd = sha2(#{password},256)
   </select>
   
   <update id="update" parameterType="teacher">
