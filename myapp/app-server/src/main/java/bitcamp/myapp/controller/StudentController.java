@@ -1,122 +1,69 @@
 package bitcamp.myapp.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import bitcamp.myapp.service.StudentService;
 import bitcamp.myapp.vo.Student;
-import bitcamp.util.Controller;
-import bitcamp.util.RequestMapping;
-import bitcamp.util.RequestParam;
 
 @Controller
+@RequestMapping("/student")
 public class StudentController {
 
-  private StudentService studentService;
+  @Autowired private StudentService studentService;
 
-  public StudentController(StudentService studentService) {
-    this.studentService = studentService;
-  }
-
-  @RequestMapping("/student/form")
+  @GetMapping("form")
   public String form() {
-    return "/student/form.jsp";
+    return "student/form";
   }
 
-  @RequestMapping("/student/insert")
-  public String insert(
-      @RequestParam("name") String name,
-      @RequestParam("email") String email,
-      @RequestParam("password") String password,
-      @RequestParam("tel") String tel,
-      @RequestParam("postNo") String postNo,
-      @RequestParam("basicAddress") String basicAddress,
-      @RequestParam("detailAddress") String detailAddress,
-      @RequestParam("working") boolean working,
-      @RequestParam("gender") char gender,
-      @RequestParam("level") Byte level,
-      HttpServletRequest request) {
-    Student student = new Student();
-    student.setName(name);
-    student.setEmail(email);
-    student.setPassword(password);
-    student.setTel(tel);
-    student.setPostNo(postNo);
-    student.setBasicAddress(basicAddress);
-    student.setDetailAddress(detailAddress);
-    student.setWorking(working);
-    student.setGender(gender);
-    student.setLevel(level);
-
+  @PostMapping("insert")
+  public String insert(Student student, Model model) {
     try {
       studentService.add(student);
     } catch (Exception e) {
       e.printStackTrace();
-      request.setAttribute("error", "other");
+      model.addAttribute("error", "other");
     }
-    return "/student/insert.jsp";
+    return "student/insert";
   }
 
-  @RequestMapping("/student/list")
-  public String list(
-      @RequestParam("keyword") String keyword,
-      HttpServletRequest request) {
-    request.setAttribute("students", studentService.list(keyword));
-    return "/student/list.jsp";
+  @GetMapping("list")
+  public String list(String keyword, Model model) {
+    model.addAttribute("students", studentService.list(keyword));
+    return "student/list";
   }
 
-  @RequestMapping("/student/view")
+  @GetMapping("view")
   public String view(
-      @RequestParam("no") int no,
-      HttpServletRequest request) {
-
-    request.setAttribute("student",
-        studentService.get(no));
-    return"/student/view.jsp";
+      int no,
+      Model model) {
+    model.addAttribute("student", studentService.get(no));
+    return"student/view";
   }
 
-  @RequestMapping("/student/update")
-  public String update(
-      @RequestParam("name") String name,
-      @RequestParam("email") String email,
-      @RequestParam("password") String password,
-      @RequestParam("tel") String tel,
-      @RequestParam("postNo") String postNo,
-      @RequestParam("basicAddress") String basicAddress,
-      @RequestParam("detailAddress") String detailAddress,
-      @RequestParam("working") boolean working,
-      @RequestParam("gender") char gender,
-      @RequestParam("level") Byte level,
-      HttpServletRequest request) {
-    Student student = new Student();
-    student.setName(name);
-    student.setEmail(email);
-    student.setPassword(password);
-    student.setTel(tel);
-    student.setPostNo(postNo);
-    student.setBasicAddress(basicAddress);
-    student.setDetailAddress(detailAddress);
-    student.setWorking(working);
-    student.setGender(gender);
-    student.setLevel(level);
-
+  @PostMapping("update")
+  public String update(Student student, Model model) {
     try {
       studentService.update(student);
     } catch (Exception e) {
       e.printStackTrace();
-      request.setAttribute("error", "other");
+      model.addAttribute("error", "other");
     }
-    return "/student/update.jsp";
+    return "student/update";
   }
 
-  @RequestMapping("/student/delete")
-  public String delete(
-      @RequestParam("no") int no,
-      HttpServletRequest request) {
+  @PostMapping("delete")
+  public String delete(int no, Model model) {
     try {
       studentService.delete(no);
     } catch (Exception e) {
       e.printStackTrace();
-      request.setAttribute("error", "other");
+      model.addAttribute("error", "other");
     }
-    return "/student/delete.jsp";
+    return "student/delete";
   }
 }

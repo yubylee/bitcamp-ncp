@@ -1,41 +1,30 @@
 package bitcamp.myapp.service.impl;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import bitcamp.myapp.dao.BoardDao;
 import bitcamp.myapp.dao.BoardFileDao;
 import bitcamp.myapp.service.BoardService;
 import bitcamp.myapp.vo.Board;
 import bitcamp.myapp.vo.BoardFile;
-import bitcamp.util.TransactionManager;
 
+@Service
 public class DefaultBoardService implements BoardService {
 
-  private TransactionManager txManager;
-  private BoardDao boardDao;
-  private BoardFileDao boardFileDao;
+  @Autowired private BoardDao boardDao;
+  @Autowired private BoardFileDao boardFileDao;
 
-  public DefaultBoardService(TransactionManager txManager, BoardDao boardDao, BoardFileDao boardFileDao) {
-    this.txManager = txManager;
-    this.boardDao = boardDao;
-    this.boardFileDao = boardFileDao;
-  }
-
+  @Transactional
   @Override
   public void add(Board board) {
-    try {
-      txManager.startTransaction();
-      boardDao.insert(board);
-      if (board.getAttachedFiles().size() > 0) {
-        for (BoardFile boardFile : board.getAttachedFiles()) {
-          boardFile.setBoardNo(board.getNo());
-        }
-        boardFileDao.insertList(board.getAttachedFiles());
+    boardDao.insert(board);
+    if (board.getAttachedFiles().size() > 0) {
+      for (BoardFile boardFile : board.getAttachedFiles()) {
+        boardFile.setBoardNo(board.getNo());
       }
-      txManager.commit();
-
-    } catch (Exception e) {
-      txManager.rollback();
-      throw new RuntimeException(e);
+      boardFileDao.insertList(board.getAttachedFiles());
     }
   }
 
@@ -53,37 +42,23 @@ public class DefaultBoardService implements BoardService {
     return b;
   }
 
+  @Transactional
   @Override
   public void update(Board board) {
-    try {
-      txManager.startTransaction();
-      if (boardDao.update(board) == 0) {
-        throw new RuntimeException("게시글이 존재하지 않습니다!");
-      }
-      if (board.getAttachedFiles().size() > 0) {
-        boardFileDao.insertList(board.getAttachedFiles());
-      }
-      txManager.commit();
-
-    }  catch (Exception e) {
-      txManager.rollback();
-      throw e;
+    if (boardDao.update(board) == 0) {
+      throw new RuntimeException("게시글이 존재하지 않습니다!");
+    }
+    if (board.getAttachedFiles().size() > 0) {
+      boardFileDao.insertList(board.getAttachedFiles());
     }
   }
 
+  @Transactional
   @Override
   public void delete(int no) {
-    try {
-      txManager.startTransaction();
-      boardFileDao.deleteOfBoard(no);
-      if (boardDao.delete(no) == 0) {
-        throw new RuntimeException("게시글이 존재하지 않습니다!");
-      }
-      txManager.commit();
-
-    }  catch (Exception e) {
-      txManager.rollback();
-      throw e;
+    boardFileDao.deleteOfBoard(no);
+    if (boardDao.delete(no) == 0) {
+      throw new RuntimeException("게시글이 존재하지 않습니다!");
     }
   }
 
