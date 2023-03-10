@@ -1,69 +1,68 @@
 package bitcamp.myapp.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import bitcamp.myapp.service.StudentService;
 import bitcamp.myapp.vo.Student;
+import bitcamp.util.RestResult;
+import bitcamp.util.RestStatus;
 
 @Controller
-@RequestMapping("/student")
 public class StudentController {
+
+  Logger log = LogManager.getLogger(getClass());
+
+  {
+    log.trace("StudentController 생성됨!");
+  }
 
   @Autowired private StudentService studentService;
 
-  @GetMapping("form")
-  public String form() {
-    return "student/form";
+  @GetMapping("/student/form")
+  public void form() {
   }
 
-  @PostMapping("insert")
-  public String insert(Student student, Model model) {
-    try {
-      studentService.add(student);
-    } catch (Exception e) {
-      e.printStackTrace();
-      model.addAttribute("error", "other");
-    }
-    return "student/insert";
+  @PostMapping("/student/insert")
+  public void insert(Student student, Model model) {
+    studentService.add(student);
   }
 
-  @GetMapping("list")
-  public String list(String keyword, Model model) {
-    model.addAttribute("students", studentService.list(keyword));
-    return "student/list";
+  @GetMapping("/students")
+  @ResponseBody
+  public Object list(String keyword) {
+    return new RestResult()
+        .setStatus(RestStatus.SUCCESS)
+        .setData(studentService.list(keyword));
   }
 
-  @GetMapping("view")
-  public String view(
-      int no,
-      Model model) {
-    model.addAttribute("student", studentService.get(no));
-    return"student/view";
+  @GetMapping("/students/{no}")
+  @ResponseBody
+  public Object view(@PathVariable int no) {
+    return new RestResult()
+        .setStatus(RestStatus.SUCCESS)
+        .setData(studentService.get(no));
   }
 
-  @PostMapping("update")
-  public String update(Student student, Model model) {
-    try {
-      studentService.update(student);
-    } catch (Exception e) {
-      e.printStackTrace();
-      model.addAttribute("error", "other");
-    }
-    return "student/update";
+  @PutMapping("/students")
+  @ResponseBody
+  public Object update(Student student) {
+    studentService.update(student);
+    return new RestResult()
+        .setStatus(RestStatus.SUCCESS);
   }
 
-  @PostMapping("delete")
-  public String delete(int no, Model model) {
-    try {
-      studentService.delete(no);
-    } catch (Exception e) {
-      e.printStackTrace();
-      model.addAttribute("error", "other");
-    }
-    return "student/delete";
+  @PostMapping("/student/delete")
+  public void delete(int no, Model model) {
+    studentService.delete(no);
   }
+
+
 }

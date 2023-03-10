@@ -1,5 +1,7 @@
 package bitcamp.myapp.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,56 +15,41 @@ import bitcamp.myapp.vo.Teacher;
 @RequestMapping("/teacher")
 public class TeacherController {
 
+  Logger log = LogManager.getLogger(getClass());
+
+  {
+    log.trace("TeacherController 생성됨!");
+  }
+
   @Autowired private TeacherService teacherService;
 
   @GetMapping("form")
-  public String form() {
-    return "teacher/form";
+  public void form() {
   }
 
   @PostMapping("insert")
-  public String insert(Teacher teacher, Model model) {
-    try {
-      teacherService.add(teacher);
-    } catch (Exception e) {
-      e.printStackTrace();
-      model.addAttribute("error", "other");
-    }
-    return "teacher/insert";
+  public void insert(Teacher teacher, Model model) {
+    teacherService.add(teacher);
   }
 
   @GetMapping("list")
-  public String list(Model model) {
+  public void list(Model model) {
     model.addAttribute("teachers", teacherService.list());
-    return "teacher/list";
   }
 
   @GetMapping("view")
-  public String view(int no, Model model) {
+  public void view(int no, Model model) {
     model.addAttribute("teacher", teacherService.get(no));
-    return "teacher/view";
   }
 
   @PostMapping("update")
-  public String update(Teacher teacher, Model model) {
-    try {
-      teacherService.update(teacher);
-    } catch (Exception e) {
-      e.printStackTrace();
-      model.addAttribute("error", "other");
-    }
-    return "teacher/update";
+  public void update(Teacher teacher, Model model) {
+    teacherService.update(teacher);
   }
 
   @PostMapping("delete")
-  public String delete(int no, Model model) {
-    try {
-      teacherService.delete(no);
-    } catch (Exception e) {
-      e.printStackTrace();
-      model.addAttribute("error", "other");
-    }
-    return "teacher/delete";
+  public void delete(int no, Model model) {
+    teacherService.delete(no);
   }
 
 }

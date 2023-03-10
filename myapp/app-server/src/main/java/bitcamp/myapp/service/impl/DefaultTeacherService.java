@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import bitcamp.myapp.dao.MemberDao;
 import bitcamp.myapp.dao.TeacherDao;
 import bitcamp.myapp.service.TeacherService;
@@ -16,6 +17,7 @@ public class DefaultTeacherService implements TeacherService {
   @Autowired private MemberDao memberDao;
   @Autowired private TeacherDao teacherDao;
 
+  @Transactional
   @Override
   public void add(Teacher teacher) {
     memberDao.insert(teacher);
@@ -41,6 +43,7 @@ public class DefaultTeacherService implements TeacherService {
     return teacherDao.findByEmailAndPassword(paramMap);
   }
 
+  @Transactional
   @Override
   public void update(Teacher teacher) {
     if (memberDao.update(teacher) == 1 &&
@@ -50,6 +53,7 @@ public class DefaultTeacherService implements TeacherService {
     }
   }
 
+  @Transactional
   @Override
   public void delete(int no) {
     if (teacherDao.delete(no) == 1 &&
