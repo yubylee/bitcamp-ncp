@@ -230,8 +230,8 @@ ALTER TABLE lms_department
 
 -- 학력
 CREATE TABLE lms_degree (
-  degree_id INTEGER            NOT NULL COMMENT '학력번호', -- 학력번호
-  degr_name <데이터 타입 없음> NOT NULL COMMENT '최종학력' -- 최종학력
+  degree_id INTEGER     NOT NULL COMMENT '학력번호', -- 학력번호
+  degr_name VARCHAR(60) NOT NULL COMMENT '최종학력' -- 최종학력
 )
 COMMENT '학력';
 
@@ -314,8 +314,8 @@ ALTER TABLE lms_application
 
 -- 강의배정
 CREATE TABLE lms_lecture_teacher (
-  lecture_id INTEGER NOT NULL COMMENT '강의번호', -- 강의번호
-  teacher_id INTEGER NOT NULL COMMENT '강사번호' -- 강사번호
+  teacher_id INTEGER NOT NULL COMMENT '강사번호', -- 강사번호
+  lecture_id INTEGER NOT NULL COMMENT '강의번호' -- 강의번호
 )
 COMMENT '강의배정';
 
@@ -323,8 +323,8 @@ COMMENT '강의배정';
 ALTER TABLE lms_lecture_teacher
   ADD CONSTRAINT PK_lms_lecture_teacher -- 강의배정 기본키
   PRIMARY KEY (
-  lecture_id, -- 강의번호
-  teacher_id  -- 강사번호
+  teacher_id, -- 강사번호
+  lecture_id  -- 강의번호
   );
 
 -- 신청상태
@@ -483,20 +483,20 @@ ALTER TABLE lms_application
 
 -- 강의배정
 ALTER TABLE lms_lecture_teacher
-  ADD CONSTRAINT FK_lms_lecture_TO_lms_lecture_teacher -- 강의 -> 강의배정
-  FOREIGN KEY (
-  lecture_id -- 강의번호
-  )
-  REFERENCES lms_lecture ( -- 강의
-  lecture_id -- 강의번호
-  );
-
--- 강의배정
-ALTER TABLE lms_lecture_teacher
   ADD CONSTRAINT FK_lms_teacher_TO_lms_lecture_teacher -- 강사 -> 강의배정
   FOREIGN KEY (
   teacher_id -- 강사번호
   )
   REFERENCES lms_teacher ( -- 강사
   teacher_id -- 강사번호
+  );
+
+-- 강의배정
+ALTER TABLE lms_lecture_teacher
+  ADD CONSTRAINT FK_lms_lecture_TO_lms_lecture_teacher -- 강의 -> 강의배정
+  FOREIGN KEY (
+  lecture_id -- 강의번호
+  )
+  REFERENCES lms_lecture ( -- 강의
+  lecture_id -- 강의번호
   );

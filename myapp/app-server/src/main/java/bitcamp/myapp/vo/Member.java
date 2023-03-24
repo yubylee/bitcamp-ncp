@@ -18,5 +18,4 @@ public class Member {
       shape = Shape.STRING,
       pattern = "yyyy-MM-dd")
   private Date createdDate;
-
 }

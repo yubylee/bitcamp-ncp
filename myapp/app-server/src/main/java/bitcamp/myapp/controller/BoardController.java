@@ -63,7 +63,6 @@ public class BoardController {
       String filename = UUID.randomUUID().toString();
       file.transferTo(new File(System.getProperty("user.home") + "/webapp-upload/" + filename));
 
-
       BoardFile boardFile = new BoardFile();
       boardFile.setOriginalFilename(file.getOriginalFilename());
       boardFile.setFilepath(filename);

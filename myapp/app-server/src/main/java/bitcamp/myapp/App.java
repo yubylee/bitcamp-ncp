@@ -11,10 +11,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import bitcamp.myapp.web.interceptor.AdminCheckInterceptor;
 import bitcamp.myapp.web.interceptor.AuthInterceptor;
 
-
 @EnableTransactionManagement
 @SpringBootApplication
-public class App implements WebMvcConfigurer{
+public class App implements WebMvcConfigurer {
 
   Logger log = LogManager.getLogger(getClass());
 
@@ -22,12 +21,11 @@ public class App implements WebMvcConfigurer{
     SpringApplication.run(App.class, args);
   }
 
-
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     log.info("App.addInterceptors() 호출됨!");
     registry.addInterceptor(new AuthInterceptor()).excludePathPatterns("/auth/**");
-    registry.addInterceptor(new AuthInterceptor()).addPathPatterns("/students/**");
+    registry.addInterceptor(new AdminCheckInterceptor()).addPathPatterns("/students/**");
     registry.addInterceptor(new AdminCheckInterceptor()).addPathPatterns("/teachers/**");
   }
 
@@ -36,8 +34,7 @@ public class App implements WebMvcConfigurer{
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     registry.addMapping("/**")
-    .allowedOrigins("https://localhost:5500", "http://127.0.0.1:5500")
+    .allowedOrigins("http://localhost:5500", "http://127.0.0.1:5500")
     .allowedMethods("*");
   }
 }
-
