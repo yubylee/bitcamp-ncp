@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class ClientApp {
 
   public static void main(String[] args) {
-    new ClientApp().execute("192.168.0.29", 8888);
+    new ClientApp().execute("localhost", 8888);
   }
 
   void execute(String ip, int port) {
@@ -16,7 +16,6 @@ public class ClientApp {
         Socket socket = new Socket(ip, port);
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
-
 
       System.out.print(in.readUTF());
 
@@ -36,11 +35,11 @@ public class ClientApp {
     }
   }
 
-
-  private String prompt(String title, Scanner keyboard) throws Exception{
+  private String prompt(String title, Scanner keyboard) throws Exception {
     System.out.printf("%s", title);
     return keyboard.nextLine();
   }
+
 }
 
 
