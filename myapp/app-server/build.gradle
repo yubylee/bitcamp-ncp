@@ -1,5 +1,5 @@
 plugins {
-  id 'application' 
+  //id 'application' 
   id 'eclipse'
   id 'java'
   id 'org.springframework.boot' version '3.0.4'
@@ -57,6 +57,6 @@ tasks.named('test') {
   useJUnitPlatform()
 }
 
-application {
+/*application {
     mainClass = 'bitcamp.myapp.App'
-}
+}*/
